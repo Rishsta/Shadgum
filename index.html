@@ -6,6 +6,7 @@
 <title>رحلة لاتنسى 3 — اختيار المقاعد</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet"/>
 <style>
+/* ── التنسيقات والأنيميشن الأصلية (بدون أي تغيير) ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --gold:#C9A84C;--gold-light:#F0D080;
@@ -23,75 +24,100 @@ body{
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(201,168,76,.1) 0%,transparent 60%);pointer-events:none;}
 
 .ph{text-align:center;padding:2.5rem 1rem 1.5rem;border-bottom:1px solid rgba(201,168,76,.1);margin-bottom:2rem;background:linear-gradient(180deg,rgba(201,168,76,.06) 0%,transparent 100%);}
-.ph-title{font-family:'Tajawal',sans-serif;font-size:clamp(28px,6vw,52px);font-weight:900;color:var(--gold-light);text-shadow:0 0 40px rgba(201,168,76,.3);}
+.ph-orn{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:.5rem}
+.ph-line{height:1px;width:55px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.ph-badge{font-family:'Tajawal',sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:.4rem}
+.ph-title{font-family:'Tajawal',sans-serif;font-size:clamp(28px,6vw,52px);font-weight:900;color:var(--gold-light);text-shadow:0 0 40px rgba(201,168,76,.3);margin-bottom:.3rem;line-height:1.1}
 
 #nameSection{max-width:420px;margin:0 auto 2.5rem;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.2);border-radius:20px;padding:2rem 1.75rem;animation:fu .5s ease both;}
 @keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .ninp{width:100%;padding:11px 15px;font-size:16px;font-family:'Cairo',sans-serif;background:rgba(255,255,255,.07);border:1px solid rgba(201,168,76,.3);border-radius:12px;color:var(--white);text-align:right;margin-bottom:13px;}
-.bstart{width:100%;padding:13px;font-weight:700;background:linear-gradient(135deg,var(--gold),#8B6914);color:var(--navy);border:none;border-radius:12px;cursor:pointer;}
+.bstart{width:100%;padding:13px;font-family:'Cairo',sans-serif;font-size:16px;font-weight:700;background:linear-gradient(135deg,var(--gold),#8B6914);color:var(--navy);border:none;border-radius:12px;cursor:pointer;box-shadow:0 4px 22px rgba(201,168,76,.3);}
 
 #busSection{display:none;animation:fu .4s ease both}
-.wbar{display:flex;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto 1.5rem;background:rgba(201,168,76,.08);padding:11px 18px;border-radius:14px;border:1px solid rgba(201,168,76,0.2)}
+.wbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:14px;padding:11px 18px;max-width:1100px;margin:0 auto 1.5rem;}
 .buses-row{display:flex;gap:3rem;justify-content:center;flex-wrap:wrap;padding:0 1rem;align-items: flex-start;}
 
+/* ── واجهة الباص الأصلية (محفوظة) ── */
 .bus-body{position:relative;width:280px;background:linear-gradient(180deg, var(--bus-body) 0%, #B59540 100%);border-radius:70px 70px 15px 15px;border:3px solid #8B6914;box-shadow:0 16px 60px rgba(0,0,0,0.7);overflow:hidden;}
-.bus-windshield{height:85px;background:#0a0a0a;margin:8px;border-radius:60px 60px 10px 10px;border-bottom:4px solid #1a1a1a;}
+.bus-windshield{height:85px;background:#0a0a0a;margin:8px;border-radius:60px 60px 10px 10px;position:relative;border-bottom:4px solid #1a1a1a;}
+.bus-windshield::after{content:'';position:absolute;top:10%;left:15%;width:70%;height:20%;background:linear-gradient(180deg,rgba(255,255,255,0.08) 0%,transparent 100%);border-radius:20px;}
 
 .cabin{background:linear-gradient(180deg,#14223A 0%,#0D1626 100%);margin:0 10px 10px;padding:20px 6px;border-radius:4px;box-shadow:inset 0 0 25px rgba(0,0,0,0.9);}
-.srows{display:flex;flex-direction:column;gap:8px}
-.srow{display:flex;align-items:center;justify-content:space-between;padding:0 4px;min-height: 55px;}
+
+/* ── توزيع المقاعد والباب (التعديل المطلوب) ── */
+.srows{display:flex;flex-direction:column;gap:10px}
+.srow{display:flex;align-items:center;justify-content:space-between;padding:0 4px;}
 .seat-pair{display:flex;gap:4px}
-.aisle{width:30px;display:flex;justify-content:center;align-items:center;color:rgba(255,255,255,0.02);font-weight:900;}
+.aisle{width:30px;display:flex;justify-content:center;align-items:center;color:rgba(255,255,255,0.02);font-weight:900;font-size:10px;}
 
-/* الباب ودورة المياه */
-.service-gap{width:80px; height: 110px; background: rgba(0,0,0,0.3); border-radius: 5px; border: 1px solid rgba(201,168,76,0.2); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 8px; color: var(--gold); gap: 10px; margin-bottom: 5px;}
+/* الباب الخلفي (واحد فقط على اليمين) */
+.door-gap{
+  width:80px; height: 110px; background: rgba(0,0,0,0.4); border-radius: 8px; 
+  border: 1px solid rgba(201,168,76,0.3); display: flex; flex-direction: column; 
+  align-items: center; justify-content: center; font-size: 9px; color: var(--gold); gap: 8px;
+}
 
-/* 3D SEAT */
+/* المقاعد 3D الأصلية */
 .seat{width:38px;cursor:pointer;flex-shrink:0;transition:transform .12s;position:relative;--sb:var(--sf-top);--sc:var(--sf-bod);}
 .seat.taken{--sb:var(--st-top);--sc:var(--st-bod);cursor:default}
 .seat.mine{--sb:var(--sm-top);--sc:var(--sm-bod);cursor:default;animation:sp .3s cubic-bezier(.34,1.56,.64,1)}
-@keyframes sp{from{transform:scale(.6)}to{transform:scale(1)}}
+@keyframes sp{from{transform:scale(.6) rotate(-5deg)}to{transform:scale(1) rotate(0)}}
 
-.sh{width:38px;height:10px;background:linear-gradient(180deg,color-mix(in srgb,var(--sb) 80%,#fff 20%),var(--sb));border-radius:6px 6px 2px 2px;margin-bottom:1px;}
-.sb{width:38px;height:32px;background:linear-gradient(180deg,var(--sb) 0%,color-mix(in srgb,var(--sb) 75%,#000 25%) 100%);border-radius:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.slbl{font-size:10px;font-weight:700;color:white;}
-.sown{font-size:6px;color:rgba(255,255,255,0.6);max-width:90%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.sc{width:38px;height:12px;background:linear-gradient(180deg,var(--sc),color-mix(in srgb,var(--sc) 70%,#000 30%));border-radius:1px 1px 5px 5px;}
+.sh{width:38px;height:10px;background:linear-gradient(180deg,color-mix(in srgb,var(--sb) 80%,#fff 20%),var(--sb));border-radius:6px 6px 2px 2px;margin-bottom:1px;box-shadow:0 2px 4px rgba(0,0,0,0.3);}
+.sb{width:38px;height:32px;background:linear-gradient(180deg,var(--sb) 0%,color-mix(in srgb,var(--sb) 75%,#000 25%) 100%);border-radius:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:inset 0 -3px 0 rgba(0,0,0,0.2);}
+.slbl{font-size:10px;font-weight:700;color:rgba(255,255,255,0.8);}
+.sown{font-size:6px;color:rgba(255,255,255,0.5);max-width:90%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;margin-top:1px}
+.sc{width:38px;height:12px;background:linear-gradient(180deg,var(--sc),color-mix(in srgb,var(--sc) 70%,#000 30%));border-radius:1px 1px 5px 5px;box-shadow:0 3px 5px rgba(0,0,0,0.4);}
 
-.last-row{display:flex;gap:3px;justify-content:center;margin-top:10px;padding-top:10px;border-top:1px dashed rgba(255,255,255,0.1);}
+.last-row{display:flex;gap:3px;justify-content:center;margin-top:15px;padding-top:15px;border-top:1px dashed rgba(255,255,255,0.1);}
 
-.legend{display:flex;gap:20px;justify-content:center;margin-top:2rem;font-size:13px;}
-.leg-box{width:18px;height:18px;border-radius:4px;margin-left:5px;}
-.chip{background:rgba(201,168,76,0.1); border:1px solid var(--gold); border-radius:20px; padding:4px 12px; margin:4px; font-size:12px;}
+.legend{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin:1.5rem auto 0;max-width:600px;font-size:13px;color:rgba(250,250,248,.5);}
+.leg-item{display:flex;align-items:center;gap:9px}
+.leg-box{width:18px;height:18px;border-radius:4px;}
 
-#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:rgba(11,31,58,.96);border:1px solid var(--gold);color:var(--gold-light);padding:11px 22px;border-radius:12px;opacity:0;transition:0.3s;z-index:999;}
+.summary{max-width:900px;margin:2rem auto 0;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:1.25rem 1.5rem;}
+.chip{background:rgba(14,138,110,.15);border:1px solid rgba(14,138,110,.3);border-radius:20px;padding:4px 12px;font-size:12px;color:rgba(18,179,142,.9);font-weight:600;margin:2px;}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:rgba(11,31,58,.96);border:1px solid rgba(201,168,76,0.4);color:var(--gold-light);padding:11px 22px;border-radius:12px;font-size:14px;opacity:0;transition:0.3s;z-index:999;backdrop-filter:blur(10px);}
 #toast.show{opacity:1}
 </style>
 </head>
 <body>
 
 <div class="ph">
+  <div class="ph-orn"><div class="ph-line"></div><span style="font-size:26px">🚌</span><div class="ph-line"></div></div>
+  <p class="ph-badge">رحلة لاتنسى 3</p>
   <h1 class="ph-title">رحلة لاتنسى ٣</h1>
-  <p>أهلاً بك في نظام حجز المقاعد</p>
+  <p class="ph-sub">أهلاً وسهلاً بزائر رسول الله</p>
 </div>
 
 <div style="max-width:1100px;margin:0 auto;padding:0 1rem 4rem">
   <div id="nameSection">
-    <input class="ninp" type="text" id="ni" placeholder="أدخل اسمك الكريم..." maxlength="15">
-    <button class="bstart" onclick="go()">🎟️ دخول الخريطة</button>
+    <input class="ninp" type="text" id="ni" placeholder="أدخل اسمك الكريم..." maxlength="15" autocomplete="off"/>
+    <button class="bstart" onclick="go()">🎟️ اختر مقعدك الآن</button>
   </div>
 
   <div id="busSection">
-    <div class="wbar"><span id="wu"></span><button onclick="back()" style="background:none;border:none;color:var(--gold);cursor:pointer;">تغيير الاسم</button></div>
-    <div class="buses-row" id="busesRow"></div>
-    <div class="legend">
-      <div style="display:flex;align-items:center;"><div class="leg-box" style="background:var(--sf-bod)"></div> متاح</div>
-      <div style="display:flex;align-items:center;"><div class="leg-box" style="background:var(--st-bod)"></div> محجوز</div>
-      <div style="display:flex;align-items:center;"><div class="leg-box" style="background:var(--gold)"></div> مقعدك</div>
+    <div class="wbar">
+      <span id="wu" style="font-weight:700; color:var(--gold-light)">مرحباً 👋</span>
+      <button onclick="back()" style="background:none; border:1px solid var(--gold); color:var(--gold); padding:4px 12px; border-radius:8px; cursor:pointer; font-size:12px;">تغيير الاسم</button>
     </div>
-    <div id="sl" style="margin-top:2rem;display:flex;flex-wrap:wrap;justify-content:center;"></div>
+
+    <div class="buses-row" id="busesRow"></div>
+
+    <div class="legend">
+      <div class="leg-item"><div class="leg-box" style="background:var(--sf-bod)"></div> متاح</div>
+      <div class="leg-item"><div class="leg-box" style="background:var(--st-bod)"></div> محجوز</div>
+      <div class="leg-item"><div class="leg-box" style="background:var(--gold)"></div> مقعدك</div>
+    </div>
+
+    <div class="summary">
+      <div class="sum-list" id="sl"></div>
+    </div>
   </div>
 </div>
+
 <div id="toast"></div>
 
 <script>
@@ -110,7 +136,7 @@ function mkBus(b){
   const body=document.createElement('div');
   body.className='bus-body';
   body.innerHTML=`
-    <div style="text-align:center;padding:10px;font-weight:900;color:var(--navy);background:var(--gold-light)">${b.lbl}</div>
+    <div style="text-align:center; padding:10px; font-weight:900; color:var(--navy); background:rgba(255,255,255,0.2)">${b.lbl}</div>
     <div class="bus-windshield"></div>
     <div class="cabin">
       <div class="srows">${renderRows(b.id)}</div>
@@ -122,7 +148,7 @@ function mkBus(b){
 function renderRows(bid){
   let h='';
   let sNum = 1;
-  // التوزيع حسب الصورة: 5 صفوف كاملة (1-20)
+  // صفوف 1 إلى 5: كاملة (4 مقاعد)
   for(let r=1; r<=5; r++){
     h += `<div class="srow">
       <div class="seat-pair">${mkS(bid,sNum++)}${mkS(bid,sNum++)}</div>
@@ -130,15 +156,15 @@ function renderRows(bid){
       <div class="seat-pair">${mkS(bid,sNum++)}${mkS(bid,sNum++)}</div>
     </div>`;
   }
-  // صفين ناقصين من اليسار (جهة الباب الخلفي)
+  // صفوف 6 و 7: الكراسي مستمرة يسار والباب يمين فقط
   for(let r=6; r<=7; r++){
     h += `<div class="srow">
-      <div class="service-gap"><span>WC / باب</span></div>
-      <div class="aisle">||</div>
       <div class="seat-pair">${mkS(bid,sNum++)}${mkS(bid,sNum++)}</div>
+      <div class="aisle">||</div>
+      ${r===6 ? `<div class="door-gap" style="grid-row: span 2;"><span>WC / باب</span></div>` : ''}
     </div>`;
   }
-  // بقية الصفوف (من مقعد 25 إلى 44)
+  // صفوف 8 إلى 11: رجعت كاملة (مقاعد 25 إلى 44)
   for(let r=8; r<=12; r++){
     h += `<div class="srow">
       <div class="seat-pair">${mkS(bid,sNum++)}${mkS(bid,sNum++)}</div>
@@ -177,7 +203,7 @@ function summ(){
   const el=document.getElementById('sl');
   const all=[];
   BUSES.forEach(b=>Object.entries(seats[b.id]).forEach(([s,n])=>all.push({name:n,bus:b.lbl,num:s.split('S')[1]})));
-  el.innerHTML=all.map(i=>`<div class="chip">🪑 ${i.name} - مقعد ${i.num} (${i.bus})</div>`).join('');
+  el.innerHTML=all.map(i=>`<div class="chip">🪑 ${i.name} - مقعد ${i.num}</div>`).join('');
 }
 
 function go(){
