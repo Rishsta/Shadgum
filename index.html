@@ -4,522 +4,226 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>رحلة لاتنسى 3 — اختيار المقاعد</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@500;700;900&display=swap" rel="stylesheet"/>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --gold:#C9A84C;--gold-light:#F0D080;
-  --navy:#0B1F3A;--bus-body:#1C3050;--bus-inner:#162640;
-  --window-glass:rgba(135,200,230,.5);
-  --sf-top:#3B7FBF;--sf-bod:#2E6299;
-  --st-top:#1A8060;--st-bod:#136047;
-  --sm-top:#C9A84C;--sm-bod:#A07830;
-  --white:#FAFAF8;
-}
-html{scroll-behavior:smooth}
-body{
-  font-family:'Cairo',sans-serif;
-  background:linear-gradient(160deg,#060F1E 0%,#0B1F3A 55%,#071526 100%);
-  min-height:100vh;color:var(--white);overflow-x:hidden;
-}
-body::before{
-  content:'';position:fixed;inset:0;
-  background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(201,168,76,.1) 0%,transparent 60%);
-  pointer-events:none;
+:root {
+  --gold: #C9A84C; --gold-light: #F0D080;
+  --navy: #0B1F3A; --bus-gold: #D4B663;
+  --glass: #1A1A1A; --seat-blue: #2E4A99;
+  --seat-taken: #136047; --white: #FAFAF8;
 }
 
-/* PAGE HEADER */
-.ph{text-align:center;padding:2.5rem 1rem 1.5rem;
-  border-bottom:1px solid rgba(201,168,76,.1);margin-bottom:2rem;
-  background:linear-gradient(180deg,rgba(201,168,76,.06) 0%,transparent 100%);}
-.ph-orn{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:.5rem}
-.ph-line{height:1px;width:55px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.ph-badge{font-family:'Tajawal',sans-serif;font-size:11px;font-weight:700;
-  letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:.4rem}
-.ph-title{font-family:'Tajawal',sans-serif;font-size:clamp(28px,6vw,52px);
-  font-weight:900;color:var(--gold-light);text-shadow:0 0 40px rgba(201,168,76,.3);
-  margin-bottom:.3rem;line-height:1.1}
-.ph-sub{font-size:clamp(15px,3vw,19px);color:rgba(250,250,248,.8);font-weight:500;margin-bottom:.2rem}
-.ph-hint{font-size:13px;color:rgba(250,250,248,.35)}
-
-/* NAME CARD */
-#nameSection{
-  max-width:420px;margin:0 auto 2.5rem;
-  background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.2);
-  border-radius:20px;padding:2rem 1.75rem;animation:fu .5s ease both;
-}
-@keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.ilbl{display:block;font-size:14px;color:var(--gold-light);margin-bottom:9px;font-weight:500}
-.ninp{
-  width:100%;padding:11px 15px;font-size:16px;font-family:'Cairo',sans-serif;
-  background:rgba(255,255,255,.07);border:1px solid rgba(201,168,76,.3);
-  border-radius:12px;color:var(--white);text-align:right;margin-bottom:13px;
-  transition:border-color .2s;
-}
-.ninp::placeholder{color:rgba(250,250,248,.3)}
-.ninp:focus{outline:none;border-color:var(--gold);background:rgba(255,255,255,.1)}
-.bstart{
-  width:100%;padding:13px;font-family:'Cairo',sans-serif;font-size:16px;font-weight:700;
-  background:linear-gradient(135deg,var(--gold),#8B6914);
-  color:var(--navy);border:none;border-radius:12px;cursor:pointer;
-  transition:transform .15s,box-shadow .15s;box-shadow:0 4px 22px rgba(201,168,76,.3);
-}
-.bstart:hover{transform:translateY(-2px);box-shadow:0 6px 30px rgba(201,168,76,.45)}
-
-/* BUS SECTION */
-#busSection{display:none;animation:fu .4s ease both}
-.wbar{
-  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
-  background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);
-  border-radius:14px;padding:11px 18px;max-width:1100px;margin:0 auto 1.5rem;
-}
-.wname{font-size:15px;font-weight:600;color:var(--gold-light)}
-.bchg{
-  font-family:'Cairo',sans-serif;font-size:12px;background:none;
-  border:1px solid rgba(201,168,76,.3);color:rgba(250,250,248,.55);
-  padding:5px 14px;border-radius:8px;cursor:pointer;transition:all .15s;
-}
-.bchg:hover{border-color:var(--gold);color:var(--gold-light)}
-
-.buses-row{display:flex;gap:2.5rem;justify-content:center;flex-wrap:wrap;padding:0 1rem}
-
-/* ── THE BUS VEHICLE ── */
-.bus-wrap{display:flex;flex-direction:column;align-items:center;gap:.6rem}
-.bus-title-bar{font-family:'Tajawal',sans-serif;font-size:15px;font-weight:700;
-  color:var(--gold-light);text-align:center;letter-spacing:.5px}
-.bus-stat-bar{font-size:12px;color:rgba(250,250,248,.4);text-align:center}
-.bus-stat-bar b{color:#12B38E}
-
-/* Outer body of bus */
-.bus-body{
-  position:relative;width:260px;
-  background:linear-gradient(180deg,#253F65 0%,#1C3050 20%,#192A44 80%,#131F30 100%);
-  border-radius:22px 22px 12px 12px;
-  border:2px solid #2A4472;
-  box-shadow:0 16px 60px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.08),
-             inset 0 -1px 0 rgba(0,0,0,.3);
-  overflow:hidden;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Cairo', sans-serif; background: #060F1E; color: var(--white);
+  overflow-x: hidden; min-height: 100vh;
 }
 
-/* Roof dome */
-.bus-roof{
-  height:16px;width:100%;
-  background:linear-gradient(90deg,#8B6914 0%,var(--gold) 25%,var(--gold-light) 50%,var(--gold) 75%,#8B6914 100%);
-  position:relative;
-}
-.bus-roof::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(255,255,255,.2) 0%,transparent 60%);
+/* HEADER */
+.ph { text-align: center; padding: 2rem 1rem; border-bottom: 1px solid rgba(201,168,76,0.2); }
+.ph-title { font-family: 'Tajawal', sans-serif; font-size: 32px; color: var(--gold-light); font-weight: 900; }
+
+/* NAME INPUT */
+#nameSection { max-width: 400px; margin: 3rem auto; padding: 2rem; background: rgba(255,255,255,0.05); border-radius: 15px; border: 1px solid var(--gold); }
+.ninp { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid var(--gold); background: #0B1F3A; color: white; text-align: center; }
+.bstart { width: 100%; padding: 12px; background: var(--gold); border: none; border-radius: 8px; font-weight: 700; cursor: pointer; color: var(--navy); }
+
+/* BUS CONTAINER */
+#busSection { display: none; padding: 1rem; }
+.buses-row { display: flex; gap: 3rem; justify-content: center; flex-wrap: wrap; padding-top: 2rem; }
+
+/* THE BUS EXTERIOR DESIGN */
+.bus-outer {
+  position: relative; width: 280px; background: var(--bus-gold);
+  border-radius: 60px 60px 15px 15px; /* rounded front */
+  border: 4px solid #B59540; box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  padding-bottom: 10px;
 }
 
-/* Gold body stripe */
-.bus-stripe{
-  height:4px;width:100%;
-  background:linear-gradient(90deg,transparent 0%,rgba(201,168,76,.5) 15%,rgba(240,208,128,.8) 50%,rgba(201,168,76,.5) 85%,transparent 100%);
+/* Front Windshield (Black Glass) */
+.bus-front-glass {
+  height: 80px; background: #111; margin: 8px;
+  border-radius: 50px 50px 10px 10px; position: relative;
+  border-bottom: 5px solid #222;
+}
+.bus-front-glass::after { /* Reflection */
+  content: ''; position: absolute; top: 10%; left: 15%; width: 70%; height: 20%;
+  background: rgba(255,255,255,0.1); border-radius: 20px;
 }
 
-/* Windows row */
-.win-row{
-  display:flex;align-items:center;padding:5px 8px;gap:3px;
-  background:rgba(0,0,0,.18);
+/* Side Windows */
+.side-windows {
+  display: flex; gap: 2px; padding: 0 8px; background: #222; margin-bottom: 10px;
 }
-.win{
-  flex:1;height:30px;
-  background:linear-gradient(180deg,rgba(160,215,240,.5) 0%,rgba(80,160,210,.3) 50%,rgba(50,120,180,.25) 100%);
-  border-radius:5px 5px 3px 3px;
-  border:1px solid rgba(120,190,230,.35);
-  position:relative;overflow:hidden;
-}
-.win::before{/* reflection */
-  content:'';position:absolute;top:3px;left:4px;width:40%;height:3px;
-  background:rgba(255,255,255,.35);border-radius:2px;
-}
-.win::after{/* lower reflection */
-  content:'';position:absolute;bottom:4px;right:4px;width:25%;height:2px;
-  background:rgba(255,255,255,.15);border-radius:1px;
-}
-.win-gap{width:20px;flex-shrink:0}/* gap over aisle, no window */
+.side-win { flex: 1; height: 35px; background: linear-gradient(180deg, #1A1A1A, #333); }
 
-/* Interior cabin */
-.cabin{
-  background:linear-gradient(180deg,#14223A 0%,#111D30 100%);
-  padding:7px 8px 10px;
-  border-top:1px solid rgba(255,255,255,.04);
-  border-bottom:1px solid rgba(0,0,0,.3);
+/* Interior Cabin */
+.cabin {
+  background: #121E31; margin: 0 12px; padding: 15px 5px; border-radius: 5px;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+  border: 2px solid #1C3050;
 }
 
-/* Overhead strip light */
-.overhead{
-  height:4px;border-radius:2px;margin:0 4px 7px;
-  background:linear-gradient(90deg,transparent,rgba(201,168,76,.25),rgba(240,208,128,.35),rgba(201,168,76,.25),transparent);
-}
+/* SEAT GRID */
+.srows { display: flex; flex-direction: column; gap: 8px; }
+.srow { display: flex; justify-content: space-between; align-items: center; padding: 0 5px; }
+.seat-pair { display: flex; gap: 4px; }
 
-/* Front row: door + driver */
-.front-row{
-  display:flex;align-items:flex-end;justify-content:space-between;
-  margin-bottom:7px;padding:0 2px;
+/* SEAT STYLING (Based on the blue seats in the photo) */
+.seat {
+  width: 38px; height: 42px; background: var(--seat-blue);
+  border-radius: 6px 6px 2px 2px; cursor: pointer; position: relative;
+  border-bottom: 4px solid #1A2A5A; transition: 0.2s;
 }
-.door-unit{
-  display:flex;flex-direction:column;align-items:center;gap:1px;
+.seat::before { /* Headrest like the photo */
+  content: ''; position: absolute; top: 2px; left: 15%; width: 70%; height: 8px;
+  background: #4A6ACF; border-radius: 3px;
 }
-.door-frame{
-  width:34px;height:40px;
-  background:linear-gradient(180deg,#1E3560,#141F35);
-  border:1.5px solid #2A4472;border-radius:4px 4px 0 0;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
-  position:relative;
-}
-.door-frame::before{/* vertical bar */
-  content:'';width:1.5px;height:22px;
-  background:rgba(201,168,76,.45);border-radius:1px;
-}
-.door-frame::after{/* handle */
-  content:'';position:absolute;bottom:6px;left:50%;transform:translateX(-50%);
-  width:6px;height:3px;border-radius:1px;background:rgba(201,168,76,.6);
-}
-.door-step{width:38px;height:5px;background:#0D1826;border-radius:0 0 3px 3px}
-.door-lbl{font-size:8px;color:rgba(201,168,76,.55);font-weight:700;margin-top:1px}
-.drv-box{
-  background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);
-  border-radius:8px;padding:5px 10px;font-size:11px;color:var(--gold);
-  display:flex;flex-direction:column;align-items:center;gap:2px;
-}
-.drv-wheel{font-size:16px}
+.seat.taken { background: var(--seat-taken); cursor: not-allowed; border-bottom-color: #0A3D2D; }
+.seat.mine { background: var(--gold); border-bottom-color: #8B6914; }
+.slbl { position: absolute; bottom: 2px; width: 100%; text-align: center; font-size: 10px; font-weight: bold; color: white; }
 
-/* Seat rows */
-.srows{display:flex;flex-direction:column;gap:5px}
-.srow{display:flex;align-items:flex-start;gap:3px}
-.rnum{width:14px;font-size:8px;color:rgba(250,250,248,.18);text-align:center;padding-top:6px;flex-shrink:0}
-.aisle{
-  width:20px;flex-shrink:0;
-  background:linear-gradient(180deg,rgba(0,0,0,.2),rgba(0,0,0,.1),rgba(0,0,0,.2));
-  border-radius:2px;align-self:stretch;
-  border-left:1px solid rgba(255,255,255,.03);
-  border-right:1px solid rgba(255,255,255,.03);
-}
+/* Aisle */
+.aisle { width: 30px; display: flex; justify-content: center; align-items: center; color: rgba(255,255,255,0.1); font-size: 10px; }
 
-/* ── 3D SEAT ── */
-.seat{
-  width:34px;cursor:pointer;flex-shrink:0;
-  transition:transform .12s;
-  position:relative;
-  --sb:var(--sf-top);--sc:var(--sf-bod);
-}
-.seat.taken{--sb:var(--st-top);--sc:var(--st-bod);cursor:default}
-.seat.mine{--sb:var(--sm-top);--sc:var(--sm-bod);cursor:default;
-  animation:sp .3s cubic-bezier(.34,1.56,.64,1)}
-@keyframes sp{from{transform:scale(.6) rotate(-5deg)}to{transform:scale(1) rotate(0)}}
+/* Last Row (Connected) */
+.last-row { display: flex; gap: 3px; justify-content: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.1); }
 
-.seat:hover:not(.taken):not(.mine){transform:translateY(-3px) scale(1.07)}
-.seat:hover:not(.taken):not(.mine) .sb{filter:brightness(1.25)}
+/* Legend & Info */
+.legend { display: flex; justify-content: center; gap: 15px; margin-top: 2rem; font-size: 14px; }
+.leg-item { display: flex; align-items: center; gap: 5px; }
+.box { width: 15px; height: 15px; border-radius: 3px; }
 
-/* headrest */
-.sh{
-  width:34px;height:8px;
-  background:linear-gradient(180deg,color-mix(in srgb,var(--sb) 80%,#fff 20%),var(--sb));
-  border-radius:5px 5px 1px 1px;
-  margin-bottom:1px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.15),inset 0 -1px 0 rgba(0,0,0,.2);
-}
-/* seat back */
-.sb{
-  width:34px;height:28px;
-  background:linear-gradient(180deg,var(--sb) 0%,color-mix(in srgb,var(--sb) 75%,#000 25%) 100%);
-  border-radius:2px 2px 1px 1px;
-  position:relative;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -2px 0 rgba(0,0,0,.25),
-             2px 0 0 color-mix(in srgb,var(--sb) 60%,#000 40%),
-             -2px 0 0 color-mix(in srgb,var(--sb) 60%,#000 40%);
-  transition:background .2s,filter .2s;
-}
-/* stitching line on back */
-.sb::before{
-  content:'';position:absolute;top:4px;left:5px;right:5px;height:1px;
-  border-top:1px dashed rgba(255,255,255,.1);
-}
-/* seat label on back */
-.slbl{
-  position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);
-  text-align:center;font-size:8px;font-weight:700;
-  color:rgba(255,255,255,.7);line-height:1;
-}
-.seat.mine .slbl{color:rgba(11,31,58,.85)}
-.snm{display:block}
-.sown{display:block;font-size:6px;font-weight:600;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:0 2px;margin-top:1px;color:rgba(255,255,255,.5)}
-.seat.mine .sown{color:rgba(11,31,58,.7)}
-/* armrests */
-.sa{
-  width:40px;height:5px;margin:0 auto;
-  background:color-mix(in srgb,var(--sc) 80%,#000 20%);
-  border-radius:1px 1px 2px 2px;
-  box-shadow:inset 0 -1px 0 rgba(0,0,0,.3);
-}
-/* cushion */
-.sc{
-  width:34px;height:12px;margin:0 auto;
-  background:linear-gradient(180deg,var(--sc),color-mix(in srgb,var(--sc) 70%,#000 30%));
-  border-radius:1px 1px 5px 5px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.1),inset 0 -2px 0 rgba(0,0,0,.2);
-}
-/* seat legs */
-.sl{
-  display:flex;justify-content:center;gap:18px;height:5px;
-}
-.sl::before,.sl::after{
-  content:'';width:3px;border-radius:0 0 2px 2px;
-  background:rgba(0,0,0,.4);
-}
-
-/* Back wall */
-.bus-back{
-  height:12px;
-  background:linear-gradient(180deg,#111D30,#0D1626);
-  border-top:1px solid rgba(255,255,255,.03);
-}
-
-/* LEGEND */
-.legend{
-  display:flex;gap:20px;flex-wrap:wrap;justify-content:center;
-  margin:1.5rem auto 0;max-width:600px;font-size:13px;color:rgba(250,250,248,.5);
-}
-.leg-item{display:flex;align-items:center;gap:9px}
-.leg-seat{width:22px}
-.leg-sh{width:22px;height:5px;border-radius:3px 3px 1px 1px;margin-bottom:1px}
-.leg-sb{width:22px;height:16px;border-radius:2px}
-.leg-sc{width:22px;height:7px;border-radius:1px 1px 3px 3px;margin-top:1px}
-.l-free .leg-sh,.l-free .leg-sb{background:var(--sf-top)}.l-free .leg-sc{background:var(--sf-bod)}
-.l-taken .leg-sh,.l-taken .leg-sb{background:var(--st-top)}.l-taken .leg-sc{background:var(--st-bod)}
-.l-mine .leg-sh,.l-mine .leg-sb{background:var(--sm-top)}.l-mine .leg-sc{background:var(--sm-bod)}
-
-/* SUMMARY */
-.summary{
-  max-width:900px;margin:2rem auto 0;
-  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
-  border-radius:16px;padding:1.25rem 1.5rem;
-}
-.sum-title{font-size:13px;font-weight:600;color:var(--gold);margin-bottom:10px}
-.sum-list{display:flex;flex-wrap:wrap;gap:8px}
-.chip{background:rgba(14,138,110,.15);border:1px solid rgba(14,138,110,.3);
-  border-radius:20px;padding:4px 12px;font-size:12px;color:rgba(18,179,142,.9);font-weight:600}
-.chip-empty{font-size:13px;color:rgba(250,250,248,.3)}
-
-/* TOAST */
-#toast{
-  position:fixed;bottom:26px;left:50%;transform:translateX(-50%);
-  background:rgba(11,31,58,.96);border:1px solid rgba(201,168,76,.4);
-  color:var(--gold-light);padding:11px 22px;border-radius:12px;
-  font-family:'Cairo',sans-serif;font-size:14px;font-weight:500;
-  opacity:0;pointer-events:none;transition:opacity .3s;z-index:999;
-  backdrop-filter:blur(10px);white-space:nowrap;max-width:92vw;text-align:center;
-}
-#toast.show{opacity:1}
-
-@media(max-width:700px){
-  .buses-row{flex-direction:column;align-items:center}
-  .bus-body{width:240px}
+#toast {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: var(--gold); color: var(--navy); padding: 10px 20px; border-radius: 20px;
+  font-weight: bold; display: none; z-index: 100;
 }
 </style>
 </head>
 <body>
 
 <div class="ph">
-  <div class="ph-orn">
-    <div class="ph-line"></div>
-    <span style="font-size:26px">🚌</span>
-    <div class="ph-line"></div>
-  </div>
-  <p class="ph-badge">رحلة لاتنسى 3</p>
+  <p style="color:var(--gold); letter-spacing: 3px;">SAPTCO VIP</p>
   <h1 class="ph-title">رحلة لاتنسى ٣</h1>
-  <p class="ph-sub">أهلاً وسهلاً بزائر سول الله</p>
-  <p class="ph-hint">اختر مقعدك المفضل وانضم إلى القافلة</p>
+  <p>اختر مقعدك في الباص الذهبي</p>
 </div>
 
-<div style="max-width:1100px;margin:0 auto;padding:0 1rem 4rem">
-
-  <div id="nameSection">
-    <label class="ilbl" for="ni">✦ أدخل اسمك لتبدأ اختيار مقعدك</label>
-    <input class="ninp" type="text" id="ni" placeholder="اسمك هنا..." maxlength="12" autocomplete="off"/>
-    <button class="bstart" onclick="go()">🎟️ اختر مقعدك الآن</button>
-  </div>
-
-  <div id="busSection">
-    <div class="wbar">
-      <span class="wname" id="wu">مرحباً 👋</span>
-      <button class="bchg" onclick="back()">تغيير الاسم</button>
-    </div>
-    <div class="buses-row" id="busesRow"></div>
-    <div class="legend">
-      <div class="leg-item l-free">
-        <div class="leg-seat"><div class="leg-sh"></div><div class="leg-sb"></div><div class="leg-sc"></div></div>
-        متاح
-      </div>
-      <div class="leg-item l-taken">
-        <div class="leg-seat"><div class="leg-sh"></div><div class="leg-sb"></div><div class="leg-sc"></div></div>
-        محجوز
-      </div>
-      <div class="leg-item l-mine">
-        <div class="leg-seat"><div class="leg-sh"></div><div class="leg-sb"></div><div class="leg-sc"></div></div>
-        مقعدك
-      </div>
-    </div>
-    <div class="summary">
-      <div class="sum-title">📋 الحجوزات الحالية</div>
-      <div class="sum-list" id="sl"><span class="chip-empty">لا توجد حجوزات بعد</span></div>
-    </div>
-  </div>
-
+<div id="nameSection">
+  <p>أدخل اسمك الكريم للمتابعة:</p>
+  <input type="text" id="ni" class="ninp" placeholder="الاسم ثلاثي" maxlength="15">
+  <button class="bstart" onclick="go()">دخول لنظام الحجز</button>
 </div>
+
+<div id="busSection">
+  <div class="buses-row" id="busesRow"></div>
+  
+  <div class="legend">
+    <div class="leg-item"><div class="box" style="background:var(--seat-blue)"></div> متاح</div>
+    <div class="leg-item"><div class="box" style="background:var(--seat-taken)"></div> محجوز</div>
+    <div class="leg-item"><div class="box" style="background:var(--gold)"></div> مقعدك</div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
-// Layout: 10 rows × 5 seats (2 left + aisle + 3 right) = 50 seats per bus
-const BUSES=[{id:1,lbl:'الباص الأول'},{id:2,lbl:'الباص الثاني'}];
-const LCOLS=['أ','ب'], RCOLS=['ج','د','هـ'];
-const seats={1:{},2:{}}, picks={};
-let me='';
+let userName = '';
+const seatsData = { 1: {}, 2: {} };
+const picks = {};
 
-const sid=(r,c)=>'R'+r+c;
-const snum=(r,c)=>(r-1)*5+[...LCOLS,...RCOLS].indexOf(c)+1;
-
-function render(){
-  const cr=document.getElementById('busesRow');
-  cr.innerHTML='';
-  BUSES.forEach(b=>cr.appendChild(mkBus(b)));
+function go() {
+  const v = document.getElementById('ni').value.trim();
+  if (!v) return alert('يرجى إدخال الاسم');
+  userName = v;
+  document.getElementById('nameSection').style.display = 'none';
+  document.getElementById('busSection').style.display = 'block';
+  renderBuses();
 }
 
-function mkBus(b){
-  const total=50, taken=Object.keys(seats[b.id]).length, free=total-taken;
-  const w=document.createElement('div');
-  w.className='bus-wrap';
-  w.innerHTML=`<div class="bus-title-bar">${b.lbl}</div>
-  <div class="bus-stat-bar"><b>${free}</b> متاح · ${taken} محجوز · ${total} مقعد</div>`;
-
-  const body=document.createElement('div');
-  body.className='bus-body';
-
-  // Roof
-  const roof=document.createElement('div'); roof.className='bus-roof'; body.appendChild(roof);
-  // Gold stripe
-  const stripe=document.createElement('div'); stripe.className='bus-stripe'; body.appendChild(stripe);
-
-  // Windows row
-  const wr=document.createElement('div'); wr.className='win-row';
-  for(let i=0;i<2;i++){const ww=document.createElement('div');ww.className='win';wr.appendChild(ww);}
-  const wg=document.createElement('div');wg.className='win-gap';wr.appendChild(wg);
-  for(let i=0;i<3;i++){const ww=document.createElement('div');ww.className='win';wr.appendChild(ww);}
-  body.appendChild(wr);
-
-  // Cabin
-  const cabin=document.createElement('div'); cabin.className='cabin';
-  // Overhead light
-  const oh=document.createElement('div'); oh.className='overhead'; cabin.appendChild(oh);
-
-  // Front: doors + driver
-  const fr=document.createElement('div'); fr.className='front-row';
-  fr.innerHTML=`
-    <div class="door-unit">
-      <div class="door-frame"></div>
-      <div class="door-step"></div>
-      <div class="door-lbl">باب أمامي</div>
-    </div>
-    <div class="drv-box"><div class="drv-wheel">🎡</div><span style="font-size:10px;color:rgba(201,168,76,.7)">السائق</span></div>
-    <div class="door-unit">
-      <div class="door-frame"></div>
-      <div class="door-step"></div>
-      <div class="door-lbl">باب خلفي</div>
-    </div>`;
-  cabin.appendChild(fr);
-
-  // Seat rows
-  const srows=document.createElement('div'); srows.className='srows';
-  for(let r=1;r<=10;r++){
-    const row=document.createElement('div'); row.className='srow';
-    const rn=document.createElement('div'); rn.className='rnum'; rn.textContent=r; row.appendChild(rn);
-    LCOLS.forEach(c=>row.appendChild(mkSeat(b.id,r,c)));
-    const aisle=document.createElement('div'); aisle.className='aisle'; row.appendChild(aisle);
-    RCOLS.forEach(c=>row.appendChild(mkSeat(b.id,r,c)));
-    srows.appendChild(row);
-  }
-  cabin.appendChild(srows);
-  body.appendChild(cabin);
-
-  // Back wall
-  const bk=document.createElement('div'); bk.className='bus-back'; body.appendChild(bk);
-
-  w.appendChild(body);
-  return w;
-}
-
-function mkSeat(bid,row,col){
-  const id=sid(row,col), num=snum(row,col);
-  const owner=seats[bid][id];
-  const isMe=picks[me]&&picks[me].bus===bid&&picks[me].seat===id;
-
-  const s=document.createElement('div');
-  s.className='seat'+(isMe?' mine':owner?' taken':'');
-  s.title=owner?owner:'مقعد '+num+' ('+col+')';
-
-  s.innerHTML=`
-    <div class="sh"></div>
-    <div class="sb">
-      <div class="slbl">
-        <span class="snm">${num}</span>
-        ${owner?`<span class="sown">${owner}</span>`:''}
+function renderBuses() {
+  const container = document.getElementById('busesRow');
+  container.innerHTML = '';
+  [1, 2].forEach(id => {
+    const busDiv = document.createElement('div');
+    busDiv.className = 'bus-outer';
+    busDiv.innerHTML = `
+      <div style="text-align:center; padding:10px; font-weight:bold; color:var(--navy)">الباص ${id === 1 ? 'الأول' : 'الثاني'}</div>
+      <div class="bus-front-glass"></div>
+      <div class="side-windows">
+        <div class="side-win"></div><div class="side-win"></div><div class="side-win"></div><div class="side-win"></div>
       </div>
-    </div>
-    <div class="sa"></div>
-    <div class="sc"></div>
-    <div class="sl"></div>`;
-
-  if(!owner) s.addEventListener('click',()=>pick(bid,id,num,bid===1?'الباص الأول':'الباص الثاني'));
-  return s;
+      <div class="cabin">
+        <div class="srows">${renderRows(id)}</div>
+        <div class="last-row">${renderLastRow(id)}</div>
+      </div>
+    `;
+    container.appendChild(busDiv);
+  });
 }
 
-function pick(bid,id,num,blbl){
-  if(!me) return;
-  const prev=picks[me];
-  if(prev) delete seats[prev.bus][prev.seat];
-  seats[bid][id]=me;
-  picks[me]={bus:bid,seat:id};
-  render(); summ();
-  toast('✅ تم حجز المقعد '+num+' في '+blbl+' باسم '+me);
+function renderRows(bid) {
+  let html = '';
+  // 10 صفوف، كل صف 2 يمين و 2 يسار
+  for (let r = 1; r <= 10; r++) {
+    html += `<div class="srow">
+      <div class="seat-pair">
+        ${mkSeat(bid, r, 'أ')}
+        ${mkSeat(bid, r, 'ب')}
+      </div>
+      <div class="aisle">||</div>
+      <div class="seat-pair">
+        ${mkSeat(bid, r, 'ج')}
+        ${mkSeat(bid, r, 'د')}
+      </div>
+    </div>`;
+  }
+  return html;
 }
 
-function summ(){
-  const el=document.getElementById('sl');
-  const all=[];
-  BUSES.forEach(b=>Object.entries(seats[b.id]).forEach(([s,n])=>{
-    const [rp,cp]=s.split(/(?<=R\d+)/); // split after Rn
-    const r=parseInt(rp.replace('R',''));
-    const c=s.replace('R'+r,'');
-    all.push({bus:b.lbl,num:snum(r,c),name:n});
-  }));
-  if(!all.length){el.innerHTML='<span class="chip-empty">لا توجد حجوزات بعد</span>';return;}
-  all.sort((a,b)=>a.num-b.num);
-  el.innerHTML=all.map(i=>`<div class="chip">🪑 ${i.name} — ${i.bus} مقعد ${i.num}</div>`).join('');
+function renderLastRow(bid) {
+  // الصف الأخير 5 مقاعد مشبوكة
+  return ['س1','س2','س3','س4','س5'].map(s => mkSeat(bid, 11, s)).join('');
 }
 
-function go(){
-  const v=document.getElementById('ni').value.trim();
-  if(!v){toast('⚠️ من فضلك أدخل اسمك أولاً');return;}
-  me=v;
-  document.getElementById('nameSection').style.display='none';
-  document.getElementById('busSection').style.display='block';
-  document.getElementById('wu').textContent='مرحباً '+me+' 👋';
-  render(); summ();
+function mkSeat(bid, row, col) {
+  const sid = `B${bid}-R${row}-${col}`;
+  const isTaken = seatsData[bid][sid];
+  const isMine = picks[userName] === sid;
+  
+  let className = 'seat';
+  if (isMine) className += ' mine';
+  else if (isTaken) className += ' taken';
+
+  return `<div class="${className}" onclick="pickSeat('${bid}','${sid}')">
+    <div class="slbl">${col}</div>
+  </div>`;
 }
-function back(){
-  document.getElementById('busSection').style.display='none';
-  document.getElementById('nameSection').style.display='block';
-  document.getElementById('ni').value=me;
+
+function pickSeat(bid, sid) {
+  if (seatsData[bid][sid]) return; // محجوز
+  
+  // إلغاء الحجز السابق إن وجد
+  if (picks[userName]) {
+    const oldSid = picks[userName];
+    const oldBid = oldSid.split('-')[0].replace('B','');
+    delete seatsData[oldBid][oldSid];
+  }
+
+  seatsData[bid][sid] = userName;
+  picks[userName] = sid;
+  
+  renderBuses();
+  showToast("تم اختيار المقعد بنجاح!");
 }
-let tt;
-function toast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),3200);
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.innerText = msg;
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 3000);
 }
-document.getElementById('ni').addEventListener('keydown',e=>{if(e.key==='Enter')go();});
 </script>
+
 </body>
 </html>
