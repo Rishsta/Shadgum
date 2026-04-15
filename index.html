@@ -6,7 +6,7 @@
 <title>رحلة لاتنسى 3 — اختيار المقاعد</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet"/>
 <style>
-/* ── المتغيرات الأصلية مع تعديل الألوان للواقعية ── */
+/* ── المتغيرات الأصلية (محفوظة بالكامل) ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --gold:#C9A84C;--gold-light:#F0D080;
@@ -28,7 +28,7 @@ body::before{
   pointer-events:none;
 }
 
-/* PAGE HEADER */
+/* PAGE HEADER (محفوظ بالكامل) */
 .ph{text-align:center;padding:2.5rem 1rem 1.5rem;border-bottom:1px solid rgba(201,168,76,.1);margin-bottom:2rem;background:linear-gradient(180deg,rgba(201,168,76,.06) 0%,transparent 100%);}
 .ph-orn{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:.5rem}
 .ph-line{height:1px;width:55px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
@@ -36,20 +36,18 @@ body::before{
 .ph-title{font-family:'Tajawal',sans-serif;font-size:clamp(28px,6vw,52px);font-weight:900;color:var(--gold-light);text-shadow:0 0 40px rgba(201,168,76,.3);margin-bottom:.3rem;line-height:1.1}
 .ph-sub{font-size:clamp(15px,3vw,19px);color:rgba(250,250,248,.8);font-weight:500;margin-bottom:.2rem}
 
-/* NAME CARD */
+/* NAME CARD (محفوظ بالكامل) */
 #nameSection{max-width:420px;margin:0 auto 2.5rem;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.2);border-radius:20px;padding:2rem 1.75rem;animation:fu .5s ease both;}
 @keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .ninp{width:100%;padding:11px 15px;font-size:16px;font-family:'Cairo',sans-serif;background:rgba(255,255,255,.07);border:1px solid rgba(201,168,76,.3);border-radius:12px;color:var(--white);text-align:right;margin-bottom:13px;}
 .bstart{width:100%;padding:13px;font-family:'Cairo',sans-serif;font-size:16px;font-weight:700;background:linear-gradient(135deg,var(--gold),#8B6914);color:var(--navy);border:none;border-radius:12px;cursor:pointer;box-shadow:0 4px 22px rgba(201,168,76,.3);}
 
-/* BUS SECTION */
+/* BUS SECTION (محفوظ بالكامل مع ترتيب الباصات جنب بعض) */
 #busSection{display:none;animation:fu .4s ease both}
 .wbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:14px;padding:11px 18px;max-width:1100px;margin:0 auto 1.5rem;}
-
-/* عرض الباصات جنب بعض */
 .buses-row{display:flex;gap:3rem;justify-content:center;flex-wrap:wrap;padding:0 1rem;align-items: flex-start;}
 
-/* ── هيكل الباص الخارجي الانسيابي ── */
+/* ── هيكل الباص الخارجي (محفوظ بالكامل) ── */
 .bus-body{
   position:relative;width:280px;
   background:linear-gradient(180deg, var(--bus-body) 0%, #B59540 100%);
@@ -57,20 +55,44 @@ body::before{
   border:3px solid #8B6914;box-shadow:0 16px 60px rgba(0,0,0,0.7);overflow:hidden;
 }
 
-/* الزجاج الأمامي بدون نص */
+/* الزجاج الأمامي بدون نص (محفوظ) */
 .bus-windshield{height:85px;background:#0a0a0a;margin:8px;border-radius:60px 60px 10px 10px;position:relative;border-bottom:4px solid #1a1a1a;}
 .bus-windshield::after{content:'';position:absolute;top:10%;left:15%;width:70%;height:20%;background:linear-gradient(180deg,rgba(255,255,255,0.08) 0%,transparent 100%);border-radius:20px;}
 
-/* المقصورة الداخلية */
-.cabin{background:linear-gradient(180deg,#14223A 0%,#0D1626 100%);margin:0 10px 10px;padding:20px 6px;border-radius:4px;box-shadow:inset 0 0 25px rgba(0,0,0,0.9);}
+/* ── المقصورة الداخلية (تم تعديلها للواقعية) ── */
+.cabin{background:linear-gradient(180deg,#14223A 0%,#0D1626 100%);margin:0 10px 10px;padding:20px 6px;border-radius:4px;box-shadow:inset 0 0 25px rgba(0,0,0,0.9); position: relative;}
 
-/* توزيع المقاعد 2+2 */
+/* توزيع المقاعد والخدمات */
 .srows{display:flex;flex-direction:column;gap:10px}
 .srow{display:flex;align-items:center;justify-content:space-between;padding:0 4px;}
 .seat-pair{display:flex;gap:4px}
 .aisle{width:30px;display:flex;justify-content:center;align-items:center;color:rgba(255,255,255,0.02);font-weight:900;font-size:10px;}
 
-/* ── الـ 3D SEAT الأصلي المطور ── */
+/* ── تفاصيل واقعية جديدة في الخلف ── */
+.cabin-services-rear {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-top: 20px; padding: 10px 5px; border-top: 1px dashed rgba(255,255,255,0.1);
+}
+
+/* مجسم الباب الخلفي */
+.rear-door-unit { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.rear-door-frame {
+  width: 30px; height: 35px; background: linear-gradient(180deg, #1E3560, #0D1626);
+  border: 1.5px solid rgba(201,168,76,0.5); border-radius: 3px; position: relative;
+}
+.rear-door-frame::after { content: ''; position: absolute; bottom: 8px; left: 6px; width: 4px; height: 1.5px; background: var(--gold); }
+.rear-door-lbl { font-size: 7px; color: rgba(201,168,76,0.5); }
+
+/* مجسم دورة المياه (WC) */
+.wc-unit { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.wc-box {
+  width: 25px; height: 25px; background: rgba(201,168,76,0.05);
+  border: 1.5px solid rgba(255,255,255,0.1); border-radius: 5px;
+  display: flex; align-items: center; justify-content: center; color: rgba(201,168,76,0.7); font-size: 8px; font-weight: bold;
+}
+.wc-lbl { font-size: 7px; color: rgba(255,255,255,0.3); }
+
+/* ── الـ 3D SEAT الأصلي (محفوظ بالكامل) ── */
 .seat{width:38px;cursor:pointer;flex-shrink:0;transition:transform .12s;position:relative;--sb:var(--sf-top);--sc:var(--sf-bod);}
 .seat.taken{--sb:var(--st-top);--sc:var(--st-bod);cursor:default}
 .seat.mine{--sb:var(--sm-top);--sc:var(--sm-bod);cursor:default;animation:sp .3s cubic-bezier(.34,1.56,.64,1)}
@@ -83,10 +105,7 @@ body::before{
 .sown{font-size:6px;color:rgba(255,255,255,0.5);max-width:90%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;margin-top:1px}
 .sc{width:38px;height:12px;background:linear-gradient(180deg,var(--sc),color-mix(in srgb,var(--sc) 70%,#000 30%));border-radius:1px 1px 5px 5px;box-shadow:0 3px 5px rgba(0,0,0,0.4);}
 
-/* الكنبة الأخيرة المشبوكة */
-.last-row{display:flex;gap:3px;justify-content:center;margin-top:15px;padding-top:15px;border-top:1px dashed rgba(255,255,255,0.1);}
-
-/* LEGEND & SUMMARY (نفس الكود الأصلي) */
+/* ── LEGEND, SUMMARY, TOAST (محفوظ بالكامل) ── */
 .legend{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin:1.5rem auto 0;max-width:600px;font-size:13px;color:rgba(250,250,248,.5);}
 .leg-item{display:flex;align-items:center;gap:9px}
 .leg-box{width:18px;height:18px;border-radius:4px;}
@@ -137,6 +156,7 @@ body::before{
 <div id="toast"></div>
 
 <script>
+// الإعدادات الأساسية (محفوظة بالكامل)
 const BUSES=[{id:1,lbl:'الباص الأول'},{id:2,lbl:'الباص الثاني'}];
 const seats={1:{},2:{}};
 let me='';
@@ -151,19 +171,31 @@ function render(){
 function mkBus(b){
   const body=document.createElement('div');
   body.className='bus-body';
+  // تم تعديل الترتيب الداخلي للكابينة
   body.innerHTML=`
     <div style="text-align:center; padding:10px; font-weight:900; color:var(--navy); background:rgba(255,255,255,0.2)">${b.lbl}</div>
     <div class="bus-windshield"></div>
     <div class="cabin">
       <div class="srows">${renderRows(b.id)}</div>
-      <div class="last-row">${renderLastRow(b.id)}</div>
+      <div class="cabin-services-rear">
+        <div class="wc-unit">
+          <div class="wc-box">WC</div>
+          <div class="wc-lbl">دورة مياه</div>
+        </div>
+        <div class="rear-door-unit">
+          <div class="rear-door-frame"></div>
+          <div class="rear-door-lbl">باب خلفي</div>
+        </div>
+      </div>
     </div>`;
   return body;
 }
 
+// تعديل المنطق ليكون الباص كله صفوف 2+2 (ورى بعض)
 function renderRows(bid){
   let h='';
-  for(let r=1;r<=10;r++){
+  // تم زيادة عدد الصفوف ليكون الباص ممتلئاً بصفوف ورى بعض
+  for(let r=1;r<=12;r++){
     h+=`<div class="srow">
       <div class="seat-pair">${mkSeatHtml(bid,r,'أ')}${mkSeatHtml(bid,r,'ب')}</div>
       <div class="aisle">||</div>
@@ -173,9 +205,8 @@ function renderRows(bid){
   return h;
 }
 
-function renderLastRow(bid){
-  return ['هـ1','هـ2','هـ3','هـ4','هـ5'].map(c=>mkSeatHtml(bid,11,c)).join('');
-}
+// تم حذف الكنبة الأخيرة الخماسية (لم تعد تستخدم)
+function renderLastRow(bid){ return ''; }
 
 function mkSeatHtml(bid,row,col){
   const sid=`B${bid}-R${row}-${col}`;
@@ -183,7 +214,8 @@ function mkSeatHtml(bid,row,col){
   const isMe=myPick===sid;
   let cls='seat';
   if(isMe) cls+=' mine'; else if(owner) cls+=' taken';
-  const num = row===11? col : (row-1)*4 + (['أ','ب','ج','د'].indexOf(col)+1);
+  // حساب رقم المقعد بناءً على الترتيب الثنائي (4 مقاعد في الصف)
+  const num = (row-1)*4 + (['أ','ب','ج','د'].indexOf(col)+1);
   return `<div class="${cls}" onclick="pick('${bid}','${sid}','${num}')">
     <div class="sh"></div>
     <div class="sb"><span class="slbl">${num}</span>${owner?`<span class="sown">${owner}</span>`:''}</div>
@@ -191,6 +223,7 @@ function mkSeatHtml(bid,row,col){
   </div>`;
 }
 
+// المنطق الأصلي (محفوظ بالكامل)
 function pick(bid,sid,num){
   if(seats[bid][sid] && seats[bid][sid]!==me) return toast('❌ محجوز');
   if(myPick){ const [obid]=myPick.split('-').map(s=>s.replace('B','')); delete seats[obid][myPick]; }
@@ -207,7 +240,7 @@ function summ(){
 
 function go(){
   const v=document.getElementById('ni').value.trim();
-  if(!v) return toast('⚠️أدخل اسمك الثلاثي');
+  if(!v) return toast('⚠️ أدخل اسمك');
   me=v; document.getElementById('nameSection').style.display='none';
   document.getElementById('busSection').style.display='block';
   document.getElementById('wu').textContent='مرحباً '+me+' 👋';
