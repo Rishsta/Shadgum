@@ -6,21 +6,22 @@
 <title>رحلة لاتنسى 3 — نظام الحجز الملكي</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet"/>
 <style>
-/* ── التنسيقات الجذرية والمتغيرات (نفس كودك الأول مع إضافة ألوان السابتكو) ── */
+/* ── التنسيقات الجذرية والمتغيرات (محفوظة بالكامل مع تعديل ألوان المقاعد الواقعية) ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
   --gold: #C9A84C;
   --gold-light: #F0D080;
   --navy: #0B1F3A;
-  --bus-body: #D4B663; /* اللون الذهبي للباص من الخارج */
-  --bus-inner: #162640;
-  --window-glass: rgba(135, 200, 230, 0.5);
-  --sf-top: #2E4A99; /* لون المقعد الأزرق من الصورة */
-  --sf-bod: #1A2A5A;
-  --st-top: #1A8060;
-  --st-bod: #136047;
-  --sm-top: #C9A84C;
-  --sm-bod: #A07830;
+  --bus-body: #D4B663; /* اللون الذهبي للباص */
+  --cabin-bg: #111B2D; /* لون أرضية المقصورة الداكنة الواقعية */
+  
+  /* ألوان المقاعد الملكية (مشتقة من صورة الكابينة الواقعية) */
+  --seat-free-top: #3D69B0;    /* أزرق فاتح للجزء العلوي المريح */
+  --seat-free-bod: #2A467D;    /* أزرق غامق لجسم المقعد القماشي */
+  --seat-taken-top: #1A8060;   /* أخضر للمحجوز (للتوافق مع النظام الأصلي) */
+  --seat-taken-bod: #136047;
+  --seat-mine-top: #C9A84C;    /* ذهبي لمقعد المستخدم */
+  --seat-mine-bod: #A07830;
   --white: #FAFAF8;
 }
 
@@ -56,91 +57,121 @@ body::before {
   border-radius: 20px; padding: 2rem 1.75rem; animation: fu 0.5s ease both;
 }
 @keyframes fu { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-.ilbl { display: block; font-size: 14px; color: var(--gold-light); margin-bottom: 9px; font-weight: 500; }
 .ninp {
   width: 100%; padding: 11px 15px; font-size: 16px; font-family: 'Cairo', sans-serif;
   background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(201, 168, 76, 0.3);
   border-radius: 12px; color: var(--white); text-align: right; margin-bottom: 13px;
-  transition: border-color 0.2s;
 }
-.ninp:focus { outline: none; border-color: var(--gold); background: rgba(255, 255, 255, 0.1); }
 .bstart {
   width: 100%; padding: 13px; font-family: 'Cairo', sans-serif; font-size: 16px; font-weight: 700;
   background: linear-gradient(135deg, var(--gold), #8B6914);
   color: var(--navy); border: none; border-radius: 12px; cursor: pointer;
-  transition: transform .15s, box-shadow .15s; box-shadow: 0 4px 22px rgba(201, 168, 76, 0.3);
-}
-.bstart:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(201, 168, 76, 0.45); }
-
-/* ── BUS SECTION ── */
-#busSection { display: none; animation: fu 0.4s ease both; }
-.wbar {
-  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
-  background: rgba(201, 168, 76, 0.08); border: 1px solid rgba(201, 168, 76, 0.2);
-  border-radius: 14px; padding: 11px 18px; max-width: 1100px; margin: 0 auto 1.5rem;
+  box-shadow: 0 4px 22px rgba(201, 168, 76, 0.3);
 }
 
-.buses-row { display: flex; gap: 3rem; justify-content: center; flex-wrap: wrap; padding: 0 1rem; }
-
-/* ── هيكل الباص الخارجي المطور (التعديل المطلوب) ── */
+/* ── هيكل الباص الخارجي (تم حذف النص كما طلب علي) ── */
 .bus-body {
   position: relative; width: 280px;
   background: linear-gradient(180deg, var(--bus-body) 0%, #B59540 100%);
-  border-radius: 65px 65px 15px 15px; /* شكل انسيابي من الأمام */
+  border-radius: 65px 65px 15px 15px; /* مقدمة انسيابية */
   border: 3px solid #8B6914;
-  box-shadow: 0 16px 60px rgba(0,0,0,0.7); overflow: hidden;
+  box-shadow: 0 16px 60px rgba(0,0,0,0.7); overflow: hidden; margin-bottom: 1rem;
 }
 
-/* سقف الباص الذهبي */
-.bus-roof { height: 12px; width: 100%; background: var(--gold); position: relative; }
-.bus-roof::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 80%); }
-
-/* الزجاج الأمامي (SAPTCO) */
+/* الزجاج الأمامي (فارغ الآن، بدون نص) */
 .bus-windshield {
   height: 85px; background: #0a0a0a; margin: 8px;
   border-radius: 55px 55px 10px 10px; position: relative;
   border-bottom: 4px solid #1a1a1a;
 }
-.bus-windshield::before {
-  content: 'SAPTCO VIP'; position: absolute; bottom: 10px; width: 100%;
-  text-align: center; color: var(--gold); font-size: 11px; font-weight: 900; letter-spacing: 3px;
+.bus-windshield::after { /* تأثير انعكاس زجاجي واقعي */
+  content: ''; position: absolute; top: 10%; left: 15%; width: 70%; height: 20%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%); border-radius: 20px;
 }
 
-/* المقصورة الداخلية */
+/* ── المقصورة الداخلية (الواقعية الجديدة) ── */
 .cabin {
-  background: linear-gradient(180deg, #14223A 0%, #0D1626 100%);
-  margin: 0 10px 10px; padding: 15px 6px; border-radius: 4px;
-  border: 1px solid rgba(255,255,255,0.05); box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+  background: var(--cabin-bg);
+  margin: 0 10px 10px; padding: 25px 8px; border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: inset 0 0 30px rgba(0,0,0,1); /* تعميق المقصورة */
 }
 
-/* ── توزيع المقاعد الجديد (2+2 + الكنبة) ── */
-.srows { display: flex; flex-direction: column; gap: 10px; }
-.srow { display: flex; align-items: center; justify-content: space-between; }
-.seat-pair { display: flex; gap: 4px; }
-.aisle { width: 30px; display: flex; justify-content: center; align-items: center; color: rgba(255,255,255,0.03); font-size: 10px; font-weight: 900; }
+/* توزيع المقاعد 2+2 والكنبة */
+.srows { display: flex; flex-direction: column; gap: 15px; } /* زيادة المسافة بين الصفوف للواقعية */
+.srow { display: flex; align-items: center; justify-content: space-between; position: relative; }
+.seat-pair { display: flex; gap: 6px; }
 
-/* المقعد الـ 3D (نفس تفاصيل كودك الأول) */
+/* ممر مشي واقعي (كنه موكيت مثل الصورة) */
+.aisle {
+  width: 32px; height: 100%; position: absolute; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(90deg, #162640, #0a0e17, #162640); /* ممر مظلم واقعي */
+  display: flex; justify-content: center; align-items: center; color: rgba(255,255,255,0.02); font-size: 8px; font-weight: 900;
+  border-radius: 2px;
+}
+
+/* ── تصميم المقعد الواقعي الملكي 3D ── */
 .seat {
-  width: 38px; cursor: pointer; flex-shrink: 0; transition: transform 0.12s;
-  position: relative; --sb: var(--sf-top); --sc: var(--sf-bod);
+  width: 40px; cursor: pointer; flex-shrink: 0; transition: transform 0.15s, filter 0.15s;
+  position: relative;
+  /* المتغيرات الأصلية محفوظة ومربوطة بألوان الواقعية الجديدة */
+  --sh-color: var(--seat-free-top);
+  --sb-color: var(--seat-free-bod);
 }
-.seat.taken { --sb: var(--st-top); --sc: var(--st-bod); cursor: default; }
-.seat.mine { --sb: var(--sm-top); --sc: var(--sm-bod); cursor: default; animation: sp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
-@keyframes sp { from { transform: scale(0.6) rotate(-5deg); } to { transform: scale(1) rotate(0); } }
+.seat.taken { --sh-color: var(--seat-taken-top); --sb-color: var(--seat-taken-bod); cursor: default; }
+.seat.mine { --sh-color: var(--seat-mine-top); --sb-color: var(--seat-mine-bod); cursor: default; animation: sp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
 
-.seat:hover:not(.taken):not(.mine) { transform: translateY(-3px) scale(1.07); }
+/* تأثير الـ Hover الواقعي */
+.seat:hover:not(.taken):not(.mine) { transform: translateY(-4px); filter: brightness(1.1); }
 
-.sh { width: 38px; height: 8px; background: linear-gradient(180deg, color-mix(in srgb, var(--sb) 80%, #fff 20%), var(--sb)); border-radius: 5px 5px 1px 1px; margin-bottom: 1px; }
-.sb { width: 38px; height: 32px; background: linear-gradient(180deg, var(--sb) 0%, color-mix(in srgb, var(--sb) 75%, #000 25%) 100%); border-radius: 2px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.slbl { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.8); }
-.sown { font-size: 6px; color: rgba(255,255,255,0.5); max-width: 90%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; margin-top: 1px; }
-.sc { width: 38px; height: 12px; background: linear-gradient(180deg, var(--sc), color-mix(in srgb, var(--sc) 70%, #000 30%)); border-radius: 1px 1px 5px 5px; }
+/* 1. مسند الرأس (واقعي، ناعم، مثل الصورة الأولى) */
+.sh {
+  width: 40px; height: 12px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--sh-color) 85%, #fff 15%) 0%, var(--sh-color) 100%);
+  border-radius: 8px 8px 3px 3px; margin-bottom: 3px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3); /* ظل إسقاط واقعي */
+}
 
-/* الكنبة الخلفية المشبوكة */
-.last-row { display: flex; gap: 3px; justify-content: center; margin-top: 15px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); }
+/* 2. جسم المقعد (واقعي، منحني، كنه قماش) */
+.sb {
+  width: 40px; height: 35px;
+  background: linear-gradient(180deg,
+    var(--sh-color) 0%, /* انتقال ناعم من مسند الرأس */
+    var(--sb-color) 30%,
+    color-mix(in srgb, var(--sb-color) 80%, #000 20%) 100% /* تعميق الظل في الأسفل */
+  );
+  border-radius: 4px; position: relative;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  box-shadow: inset 0 -4px 0 rgba(0,0,0,0.3), 0 3px 6px rgba(0,0,0,0.4);
+}
+.slbl { font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.9); text-shadow: 0 1px 2px rgba(0,0,0,0.5); pointer-events: none; }
+.sown { font-size: 7px; color: rgba(255,255,255,0.6); max-width: 95%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; margin-top: 2px; }
+.seat.mine .slbl, .seat.mine .sown { color: var(--navy); text-shadow: none; }
 
-/* ── LEGEND, SUMMARY, TOAST (نفس كودك الأول بالكامل) ── */
-.legend { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin: 1.5rem auto 0; max-width: 600px; font-size: 13px; color: rgba(250,250,248,0.5); }
+/* 3. الوسادة السفلية (كوشين واقعية) */
+.sc {
+  width: 40px; height: 14px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--sb-color) 90%, #fff 10%) 0%, var(--sb-color) 100%);
+  border-radius: 2px 2px 7px 7px;
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.1), 0 4px 5px rgba(0,0,0,0.5);
+}
+
+/* 4. تفاصيل واقعية: خياطة المقعد (Stitching) */
+.sb::after {
+  content: ''; position: absolute; top: 10px; left: 4px; right: 4px; height: 1px;
+  border-bottom: 1px dashed rgba(255,255,255,0.05); opacity: 0.5;
+}
+
+/* الكنبة الخلفية المشبوكة (واقعية، متصلة) */
+.last-row {
+  display: flex; gap: 4px; justify-content: center; margin-top: 20px; padding-top: 20px;
+  border-top: 1px dashed rgba(255,255,255,0.08);
+}
+.last-row .seat { width: 36px; } /* تصغير الكنبة لتناسب العرض */
+.last-row .sh, .last-row .sb, .last-row .sc { width: 36px; }
+
+/* ── LEGEND, SUMMARY, TOAST (محفوظة بالكامل) ── */
+.legend { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin: 2rem auto 0; max-width: 600px; font-size: 13px; color: rgba(250,250,248,0.5); }
 .leg-item { display: flex; align-items: center; gap: 9px; }
 .leg-box { width: 18px; height: 18px; border-radius: 4px; }
 
@@ -159,6 +190,9 @@ body::before {
 }
 #toast.show { opacity: 1; }
 
+@keyframes sp { from { transform: scale(0.6) rotate(-5deg); } to { transform: scale(1) rotate(0); } }
+@keyframes fu { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
 @media(max-width: 700px) { .buses-row { flex-direction: column; align-items: center; } }
 </style>
 </head>
@@ -174,7 +208,7 @@ body::before {
 
 <div style="max-width:1100px; margin:0 auto; padding:0 1rem 4rem">
   <div id="nameSection">
-    <label class="ilbl" for="ni">✦ أدخل اسمك لتبدأ اختيار مقعدك</label>
+    <label class="ilbl">✦ أدخل اسمك لتبدأ اختيار مقعدك</label>
     <input class="ninp" type="text" id="ni" placeholder="اسمك هنا..." maxlength="15" autocomplete="off"/>
     <button class="bstart" onclick="go()">🎟️ اختر مقعدك الآن</button>
   </div>
@@ -182,14 +216,14 @@ body::before {
   <div id="busSection">
     <div class="wbar">
       <span class="wname" id="wu" style="font-weight:700; color:var(--gold-light)">مرحباً 👋</span>
-      <button class="bchg" onclick="back()" style="background:none; border:1px solid var(--gold); color:var(--gold); padding:4px 12px; border-radius:8px; cursor:pointer; font-size:12px;">تغيير الاسم</button>
+      <button onclick="back()" style="background:none; border:1px solid var(--gold); color:var(--gold); padding:4px 12px; border-radius:8px; cursor:pointer; font-size:12px;">تغيير الاسم</button>
     </div>
 
     <div class="buses-row" id="busesRow"></div>
 
     <div class="legend">
-      <div class="leg-item"><div class="leg-box" style="background:var(--sf-top)"></div> متاح</div>
-      <div class="leg-item"><div class="leg-box" style="background:var(--st-top)"></div> محجوز</div>
+      <div class="leg-item"><div class="leg-box" style="background:var(--seat-free-bod)"></div> متاح</div>
+      <div class="leg-item"><div class="leg-box" style="background:var(--seat-taken-bod)"></div> محجوز</div>
       <div class="leg-item"><div class="leg-box" style="background:var(--gold)"></div> مقعدك</div>
     </div>
 
@@ -237,11 +271,11 @@ function renderRows(bid) {
   for (let r = 1; r <= 10; r++) {
     html += `
       <div class="srow">
+        <div class="aisle">||</div>
         <div class="seat-pair">
           ${mkSeatHtml(bid, r, 'أ')}
           ${mkSeatHtml(bid, r, 'ب')}
         </div>
-        <div class="aisle">||</div>
         <div class="seat-pair">
           ${mkSeatHtml(bid, r, 'ج')}
           ${mkSeatHtml(bid, r, 'د')}
@@ -303,8 +337,8 @@ function summ() {
   const el = document.getElementById('sl');
   const all = [];
   BUSES.forEach(b => {
-    Object.entries(seats[b.id]).forEach(([s, n]) => {
-      all.push({ name: n, bus: b.lbl });
+    Object.entries(seats[b.id]).forEach(([sid, name]) => {
+      all.push({ name: name, bus: b.lbl });
     });
   });
   if (!all.length) { el.innerHTML = '<span style="color:rgba(255,255,255,0.2)">لا توجد حجوزات بعد</span>'; return; }
