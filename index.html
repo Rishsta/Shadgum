@@ -6,7 +6,7 @@
 <title>رحلة لاتنسى 3 — اختيار المقاعد</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet"/>
 <style>
-/* ── التنسيقات والأنيميشن الأصلية (بدون أي تغيير) ── */
+/* ── المتغيرات والأنيميشن الأصلية (بدون أي تغيير) ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --gold:#C9A84C;--gold-light:#F0D080;
@@ -44,14 +44,14 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .seat-pair{display:flex;gap:4px}
 .aisle{width:30px;display:flex;justify-content:center;align-items:center;color:rgba(255,255,255,0.02);font-weight:900;}
 
-/* ── الباب الخلفي (تم نقله ليسار الباص) ── */
-.service-gap{
-  width:80px; height: 110px; background: rgba(0,0,0,0.3); border-radius: 5px; 
-  border: 1px solid rgba(201,168,76,0.2); display: flex; flex-direction: column; 
-  align-items: center; justify-content: center; font-size: 8px; color: var(--gold); gap: 10px;
+/* ── الباب والحمام (بوكس واحد على اليسار) ── */
+.service-unit{
+  width:82px; height: 115px; background: rgba(0,0,0,0.4); border-radius: 8px; 
+  border: 1px solid rgba(201,168,76,0.3); display: flex; align-items: center; 
+  justify-content: center; text-align: center; font-size: 10px; color: var(--gold);
 }
 
-/* 3D SEAT */
+/* 3D SEAT الأصلي */
 .seat{width:38px;cursor:pointer;flex-shrink:0;transition:transform .12s;position:relative;--sb:var(--sf-top);--sc:var(--sf-bod);}
 .seat.taken{--sb:var(--st-top);--sc:var(--st-bod);cursor:default}
 .seat.mine{--sb:var(--sm-top);--sc:var(--sm-bod);cursor:default;animation:sp .3s cubic-bezier(.34,1.56,.64,1)}
@@ -60,7 +60,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .sh{width:38px;height:10px;background:linear-gradient(180deg,color-mix(in srgb,var(--sb) 80%,#fff 20%),var(--sb));border-radius:6px 6px 2px 2px;margin-bottom:1px;}
 .sb{width:38px;height:32px;background:linear-gradient(180deg,var(--sb) 0%,color-mix(in srgb,var(--sb) 75%,#000 25%) 100%);border-radius:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .slbl{font-size:10px;font-weight:700;color:white;}
-.sown{font-size:6px;color:rgba(255,255,255,0.6);max-width:90%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.sown{font-size:6px;color:rgba(255,255,255,0.5);max-width:90%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .sc{width:38px;height:12px;background:linear-gradient(180deg,var(--sc),color-mix(in srgb,var(--sc) 70%,#000 30%));border-radius:1px 1px 5px 5px;}
 
 .last-row{display:flex;gap:3px;justify-content:center;margin-top:10px;padding-top:10px;border-top:1px dashed rgba(255,255,255,0.1);}
@@ -77,12 +77,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
 <div class="ph">
   <h1 class="ph-title">رحلة لاتنسى ٣</h1>
-  <p>أهلاً بك في نظام حجز المقاعد</p>
+  <p>نظام الحجز الملكي</p>
 </div>
 
 <div style="max-width:1100px;margin:0 auto;padding:0 1rem 4rem">
   <div id="nameSection">
-    <input class="ninp" type="text" id="ni" placeholder="أدخل اسمك الثلاثي " maxlength="15">
+    <input class="ninp" type="text" id="ni" placeholder="أدخل اسمك الكريم..." maxlength="15">
     <button class="bstart" onclick="go()">🎟️ دخول الخريطة</button>
   </div>
 
@@ -127,7 +127,7 @@ function mkBus(b){
 function renderRows(bid){
   let h='';
   let sNum = 1;
-  // التوزيع حسب الصورة: 5 صفوف كاملة (1-20)
+  // صفوف 1 إلى 5: كاملة (1-20)
   for(let r=1; r<=5; r++){
     h += `<div class="srow">
       <div class="seat-pair">${mkS(bid,sNum++)}${mkS(bid,sNum++)}</div>
@@ -135,16 +135,15 @@ function renderRows(bid){
       <div class="seat-pair">${mkS(bid,sNum++)}${mkS(bid,sNum++)}</div>
     </div>`;
   }
-  // ── التعديل: نقل الباب لليسار ──
-  // صفين يحتويان على الباب الخلفي والدورة مياه على اليسار
+  // صفوف 6 و 7: الباب والحمام بوكس واحد على اليسار، والكراسي مستمرة على اليمين
   for(let r=6; r<=7; r++){
     h += `<div class="srow">
-      <div class="service-gap"><span>WC / باب</span></div>
+      ${r===6 ? `<div class="service-unit" style="grid-row: span 2;"><span>WC / باب</span></div>` : '<div style="width:82px"></div>'}
       <div class="aisle">||</div>
       <div class="seat-pair">${mkS(bid,sNum++)}${mkS(bid,sNum++)}</div>
     </div>`;
   }
-  // بقية الصفوف (من مقعد 25 إلى 44)
+  // بقية الصفوف (25 إلى 44)
   for(let r=8; r<=12; r++){
     h += `<div class="srow">
       <div class="seat-pair">${mkS(bid,sNum++)}${mkS(bid,sNum++)}</div>
@@ -183,7 +182,7 @@ function summ(){
   const el=document.getElementById('sl');
   const all=[];
   BUSES.forEach(b=>Object.entries(seats[b.id]).forEach(([s,n])=>all.push({name:n,bus:b.lbl,num:s.split('S')[1]})));
-  el.innerHTML=all.map(i=>`<div class="chip">🪑 ${i.name} - مقعد ${i.num} (${i.bus})</div>`).join('');
+  el.innerHTML=all.map(i=>`<div class="chip">🪑 ${i.name} - مقعد ${i.num}</div>`).join('');
 }
 
 function go(){
