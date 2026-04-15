@@ -3,227 +3,337 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>رحلة لاتنسى 3 — اختيار المقاعد</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@500;700;900&display=swap" rel="stylesheet"/>
+<title>رحلة لاتنسى 3 — نظام الحجز الملكي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet"/>
 <style>
-:root {
-  --gold: #C9A84C; --gold-light: #F0D080;
-  --navy: #0B1F3A; --bus-gold: #D4B663;
-  --glass: #1A1A1A; --seat-blue: #2E4A99;
-  --seat-taken: #136047; --white: #FAFAF8;
-}
-
+/* ── التنسيقات الجذرية والمتغيرات (نفس كودك الأول مع إضافة ألوان السابتكو) ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #C9A84C;
+  --gold-light: #F0D080;
+  --navy: #0B1F3A;
+  --bus-body: #D4B663; /* اللون الذهبي للباص من الخارج */
+  --bus-inner: #162640;
+  --window-glass: rgba(135, 200, 230, 0.5);
+  --sf-top: #2E4A99; /* لون المقعد الأزرق من الصورة */
+  --sf-bod: #1A2A5A;
+  --st-top: #1A8060;
+  --st-bod: #136047;
+  --sm-top: #C9A84C;
+  --sm-bod: #A07830;
+  --white: #FAFAF8;
+}
+
+html { scroll-behavior: smooth; }
 body {
-  font-family: 'Cairo', sans-serif; background: #060F1E; color: var(--white);
-  overflow-x: hidden; min-height: 100vh;
+  font-family: 'Cairo', sans-serif;
+  background: linear-gradient(160deg, #060F1E 0%, #0B1F3A 55%, #071526 100%);
+  min-height: 100vh; color: var(--white); overflow-x: hidden;
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201, 168, 76, 0.1) 0%, transparent 60%);
+  pointer-events: none;
 }
 
-/* HEADER */
-.ph { text-align: center; padding: 2rem 1rem; border-bottom: 1px solid rgba(201,168,76,0.2); }
-.ph-title { font-family: 'Tajawal', sans-serif; font-size: 32px; color: var(--gold-light); font-weight: 900; }
+/* ── PAGE HEADER (نفس التصميم الأصلي) ── */
+.ph {
+  text-align: center; padding: 2.5rem 1rem 1.5rem;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.1); margin-bottom: 2rem;
+  background: linear-gradient(180deg, rgba(201, 168, 76, 0.06) 0%, transparent 100%);
+}
+.ph-orn { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: .5rem; }
+.ph-line { height: 1px; width: 55px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.ph-badge { font-family: 'Tajawal', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin-bottom: .4rem; }
+.ph-title { font-family: 'Tajawal', sans-serif; font-size: clamp(28px, 6vw, 52px); font-weight: 900; color: var(--gold-light); text-shadow: 0 0 40px rgba(201, 168, 76, 0.3); margin-bottom: .3rem; line-height: 1.1; }
+.ph-sub { font-size: clamp(15px, 3vw, 19px); color: rgba(250, 250, 248, 0.8); font-weight: 500; margin-bottom: .2rem; }
+.ph-hint { font-size: 13px; color: rgba(250, 250, 248, 0.35); }
 
-/* NAME INPUT */
-#nameSection { max-width: 400px; margin: 3rem auto; padding: 2rem; background: rgba(255,255,255,0.05); border-radius: 15px; border: 1px solid var(--gold); }
-.ninp { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid var(--gold); background: #0B1F3A; color: white; text-align: center; }
-.bstart { width: 100%; padding: 12px; background: var(--gold); border: none; border-radius: 8px; font-weight: 700; cursor: pointer; color: var(--navy); }
+/* ── NAME CARD (نفس التصميم الأصلي) ── */
+#nameSection {
+  max-width: 420px; margin: 0 auto 2.5rem;
+  background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 20px; padding: 2rem 1.75rem; animation: fu 0.5s ease both;
+}
+@keyframes fu { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.ilbl { display: block; font-size: 14px; color: var(--gold-light); margin-bottom: 9px; font-weight: 500; }
+.ninp {
+  width: 100%; padding: 11px 15px; font-size: 16px; font-family: 'Cairo', sans-serif;
+  background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(201, 168, 76, 0.3);
+  border-radius: 12px; color: var(--white); text-align: right; margin-bottom: 13px;
+  transition: border-color 0.2s;
+}
+.ninp:focus { outline: none; border-color: var(--gold); background: rgba(255, 255, 255, 0.1); }
+.bstart {
+  width: 100%; padding: 13px; font-family: 'Cairo', sans-serif; font-size: 16px; font-weight: 700;
+  background: linear-gradient(135deg, var(--gold), #8B6914);
+  color: var(--navy); border: none; border-radius: 12px; cursor: pointer;
+  transition: transform .15s, box-shadow .15s; box-shadow: 0 4px 22px rgba(201, 168, 76, 0.3);
+}
+.bstart:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(201, 168, 76, 0.45); }
 
-/* BUS CONTAINER */
-#busSection { display: none; padding: 1rem; }
-.buses-row { display: flex; gap: 3rem; justify-content: center; flex-wrap: wrap; padding-top: 2rem; }
-
-/* THE BUS EXTERIOR DESIGN */
-.bus-outer {
-  position: relative; width: 280px; background: var(--bus-gold);
-  border-radius: 60px 60px 15px 15px; /* rounded front */
-  border: 4px solid #B59540; box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-  padding-bottom: 10px;
+/* ── BUS SECTION ── */
+#busSection { display: none; animation: fu 0.4s ease both; }
+.wbar {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  background: rgba(201, 168, 76, 0.08); border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 14px; padding: 11px 18px; max-width: 1100px; margin: 0 auto 1.5rem;
 }
 
-/* Front Windshield (Black Glass) */
-.bus-front-glass {
-  height: 80px; background: #111; margin: 8px;
-  border-radius: 50px 50px 10px 10px; position: relative;
-  border-bottom: 5px solid #222;
-}
-.bus-front-glass::after { /* Reflection */
-  content: ''; position: absolute; top: 10%; left: 15%; width: 70%; height: 20%;
-  background: rgba(255,255,255,0.1); border-radius: 20px;
+.buses-row { display: flex; gap: 3rem; justify-content: center; flex-wrap: wrap; padding: 0 1rem; }
+
+/* ── هيكل الباص الخارجي المطور (التعديل المطلوب) ── */
+.bus-body {
+  position: relative; width: 280px;
+  background: linear-gradient(180deg, var(--bus-body) 0%, #B59540 100%);
+  border-radius: 65px 65px 15px 15px; /* شكل انسيابي من الأمام */
+  border: 3px solid #8B6914;
+  box-shadow: 0 16px 60px rgba(0,0,0,0.7); overflow: hidden;
 }
 
-/* Side Windows */
-.side-windows {
-  display: flex; gap: 2px; padding: 0 8px; background: #222; margin-bottom: 10px;
-}
-.side-win { flex: 1; height: 35px; background: linear-gradient(180deg, #1A1A1A, #333); }
+/* سقف الباص الذهبي */
+.bus-roof { height: 12px; width: 100%; background: var(--gold); position: relative; }
+.bus-roof::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 80%); }
 
-/* Interior Cabin */
+/* الزجاج الأمامي (SAPTCO) */
+.bus-windshield {
+  height: 85px; background: #0a0a0a; margin: 8px;
+  border-radius: 55px 55px 10px 10px; position: relative;
+  border-bottom: 4px solid #1a1a1a;
+}
+.bus-windshield::before {
+  content: 'SAPTCO VIP'; position: absolute; bottom: 10px; width: 100%;
+  text-align: center; color: var(--gold); font-size: 11px; font-weight: 900; letter-spacing: 3px;
+}
+
+/* المقصورة الداخلية */
 .cabin {
-  background: #121E31; margin: 0 12px; padding: 15px 5px; border-radius: 5px;
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
-  border: 2px solid #1C3050;
+  background: linear-gradient(180deg, #14223A 0%, #0D1626 100%);
+  margin: 0 10px 10px; padding: 15px 6px; border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.05); box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
 }
 
-/* SEAT GRID */
-.srows { display: flex; flex-direction: column; gap: 8px; }
-.srow { display: flex; justify-content: space-between; align-items: center; padding: 0 5px; }
+/* ── توزيع المقاعد الجديد (2+2 + الكنبة) ── */
+.srows { display: flex; flex-direction: column; gap: 10px; }
+.srow { display: flex; align-items: center; justify-content: space-between; }
 .seat-pair { display: flex; gap: 4px; }
+.aisle { width: 30px; display: flex; justify-content: center; align-items: center; color: rgba(255,255,255,0.03); font-size: 10px; font-weight: 900; }
 
-/* SEAT STYLING (Based on the blue seats in the photo) */
+/* المقعد الـ 3D (نفس تفاصيل كودك الأول) */
 .seat {
-  width: 38px; height: 42px; background: var(--seat-blue);
-  border-radius: 6px 6px 2px 2px; cursor: pointer; position: relative;
-  border-bottom: 4px solid #1A2A5A; transition: 0.2s;
+  width: 38px; cursor: pointer; flex-shrink: 0; transition: transform 0.12s;
+  position: relative; --sb: var(--sf-top); --sc: var(--sf-bod);
 }
-.seat::before { /* Headrest like the photo */
-  content: ''; position: absolute; top: 2px; left: 15%; width: 70%; height: 8px;
-  background: #4A6ACF; border-radius: 3px;
-}
-.seat.taken { background: var(--seat-taken); cursor: not-allowed; border-bottom-color: #0A3D2D; }
-.seat.mine { background: var(--gold); border-bottom-color: #8B6914; }
-.slbl { position: absolute; bottom: 2px; width: 100%; text-align: center; font-size: 10px; font-weight: bold; color: white; }
+.seat.taken { --sb: var(--st-top); --sc: var(--st-bod); cursor: default; }
+.seat.mine { --sb: var(--sm-top); --sc: var(--sm-bod); cursor: default; animation: sp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+@keyframes sp { from { transform: scale(0.6) rotate(-5deg); } to { transform: scale(1) rotate(0); } }
 
-/* Aisle */
-.aisle { width: 30px; display: flex; justify-content: center; align-items: center; color: rgba(255,255,255,0.1); font-size: 10px; }
+.seat:hover:not(.taken):not(.mine) { transform: translateY(-3px) scale(1.07); }
 
-/* Last Row (Connected) */
-.last-row { display: flex; gap: 3px; justify-content: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.1); }
+.sh { width: 38px; height: 8px; background: linear-gradient(180deg, color-mix(in srgb, var(--sb) 80%, #fff 20%), var(--sb)); border-radius: 5px 5px 1px 1px; margin-bottom: 1px; }
+.sb { width: 38px; height: 32px; background: linear-gradient(180deg, var(--sb) 0%, color-mix(in srgb, var(--sb) 75%, #000 25%) 100%); border-radius: 2px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.slbl { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.8); }
+.sown { font-size: 6px; color: rgba(255,255,255,0.5); max-width: 90%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; margin-top: 1px; }
+.sc { width: 38px; height: 12px; background: linear-gradient(180deg, var(--sc), color-mix(in srgb, var(--sc) 70%, #000 30%)); border-radius: 1px 1px 5px 5px; }
 
-/* Legend & Info */
-.legend { display: flex; justify-content: center; gap: 15px; margin-top: 2rem; font-size: 14px; }
-.leg-item { display: flex; align-items: center; gap: 5px; }
-.box { width: 15px; height: 15px; border-radius: 3px; }
+/* الكنبة الخلفية المشبوكة */
+.last-row { display: flex; gap: 3px; justify-content: center; margin-top: 15px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); }
+
+/* ── LEGEND, SUMMARY, TOAST (نفس كودك الأول بالكامل) ── */
+.legend { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin: 1.5rem auto 0; max-width: 600px; font-size: 13px; color: rgba(250,250,248,0.5); }
+.leg-item { display: flex; align-items: center; gap: 9px; }
+.leg-box { width: 18px; height: 18px; border-radius: 4px; }
+
+.summary { max-width: 900px; margin: 2rem auto 0; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 1.25rem 1.5rem; }
+.sum-title { font-size: 13px; font-weight: 600; color: var(--gold); margin-bottom: 10px; }
+.sum-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { background: rgba(14, 138, 110, 0.15); border: 1px solid rgba(14, 138, 110, 0.3); border-radius: 20px; padding: 4px 12px; font-size: 12px; color: rgba(18, 179, 142, 0.9); font-weight: 600; }
 
 #toast {
-  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-  background: var(--gold); color: var(--navy); padding: 10px 20px; border-radius: 20px;
-  font-weight: bold; display: none; z-index: 100;
+  position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%);
+  background: rgba(11, 31, 58, 0.96); border: 1px solid rgba(201, 168, 76, 0.4);
+  color: var(--gold-light); padding: 11px 22px; border-radius: 12px;
+  font-family: 'Cairo', sans-serif; font-size: 14px; font-weight: 500;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 999;
+  backdrop-filter: blur(10px);
 }
+#toast.show { opacity: 1; }
+
+@media(max-width: 700px) { .buses-row { flex-direction: column; align-items: center; } }
 </style>
 </head>
 <body>
 
 <div class="ph">
-  <p style="color:var(--gold); letter-spacing: 3px;">SAPTCO VIP</p>
+  <div class="ph-orn"><div class="ph-line"></div><span style="font-size:26px">🚌</span><div class="ph-line"></div></div>
+  <p class="ph-badge">رحلة لاتنسى 3</p>
   <h1 class="ph-title">رحلة لاتنسى ٣</h1>
-  <p>اختر مقعدك في الباص الذهبي</p>
+  <p class="ph-sub">أهلاً وسهلاً بزائر رسول الله</p>
+  <p class="ph-hint">اختر مقعدك المفضل وانضم إلى القافلة</p>
 </div>
 
-<div id="nameSection">
-  <p>أدخل اسمك الكريم للمتابعة:</p>
-  <input type="text" id="ni" class="ninp" placeholder="الاسم ثلاثي" maxlength="15">
-  <button class="bstart" onclick="go()">دخول لنظام الحجز</button>
-</div>
+<div style="max-width:1100px; margin:0 auto; padding:0 1rem 4rem">
+  <div id="nameSection">
+    <label class="ilbl" for="ni">✦ أدخل اسمك لتبدأ اختيار مقعدك</label>
+    <input class="ninp" type="text" id="ni" placeholder="اسمك هنا..." maxlength="15" autocomplete="off"/>
+    <button class="bstart" onclick="go()">🎟️ اختر مقعدك الآن</button>
+  </div>
 
-<div id="busSection">
-  <div class="buses-row" id="busesRow"></div>
-  
-  <div class="legend">
-    <div class="leg-item"><div class="box" style="background:var(--seat-blue)"></div> متاح</div>
-    <div class="leg-item"><div class="box" style="background:var(--seat-taken)"></div> محجوز</div>
-    <div class="leg-item"><div class="box" style="background:var(--gold)"></div> مقعدك</div>
+  <div id="busSection">
+    <div class="wbar">
+      <span class="wname" id="wu" style="font-weight:700; color:var(--gold-light)">مرحباً 👋</span>
+      <button class="bchg" onclick="back()" style="background:none; border:1px solid var(--gold); color:var(--gold); padding:4px 12px; border-radius:8px; cursor:pointer; font-size:12px;">تغيير الاسم</button>
+    </div>
+
+    <div class="buses-row" id="busesRow"></div>
+
+    <div class="legend">
+      <div class="leg-item"><div class="leg-box" style="background:var(--sf-top)"></div> متاح</div>
+      <div class="leg-item"><div class="leg-box" style="background:var(--st-top)"></div> محجوز</div>
+      <div class="leg-item"><div class="leg-box" style="background:var(--gold)"></div> مقعدك</div>
+    </div>
+
+    <div class="summary">
+      <div class="sum-title">📋 الحجوزات الحالية</div>
+      <div class="sum-list" id="sl"><span style="color:rgba(255,255,255,0.2)">لا توجد حجوزات بعد</span></div>
+    </div>
   </div>
 </div>
 
 <div id="toast"></div>
 
 <script>
-let userName = '';
-const seatsData = { 1: {}, 2: {} };
-const picks = {};
+// الإعدادات الأصلية
+const BUSES = [{id:1, lbl:'الباص الأول'}, {id:2, lbl:'الباص الثاني'}];
+const seats = {1:{}, 2:{}};
+let me = '';
+let myPick = null;
 
-function go() {
-  const v = document.getElementById('ni').value.trim();
-  if (!v) return alert('يرجى إدخال الاسم');
-  userName = v;
-  document.getElementById('nameSection').style.display = 'none';
-  document.getElementById('busSection').style.display = 'block';
-  renderBuses();
+function render() {
+  const cr = document.getElementById('busesRow');
+  cr.innerHTML = '';
+  BUSES.forEach(b => cr.appendChild(mkBus(b)));
 }
 
-function renderBuses() {
-  const container = document.getElementById('busesRow');
-  container.innerHTML = '';
-  [1, 2].forEach(id => {
-    const busDiv = document.createElement('div');
-    busDiv.className = 'bus-outer';
-    busDiv.innerHTML = `
-      <div style="text-align:center; padding:10px; font-weight:bold; color:var(--navy)">الباص ${id === 1 ? 'الأول' : 'الثاني'}</div>
-      <div class="bus-front-glass"></div>
-      <div class="side-windows">
-        <div class="side-win"></div><div class="side-win"></div><div class="side-win"></div><div class="side-win"></div>
-      </div>
-      <div class="cabin">
-        <div class="srows">${renderRows(id)}</div>
-        <div class="last-row">${renderLastRow(id)}</div>
-      </div>
-    `;
-    container.appendChild(busDiv);
-  });
+function mkBus(b) {
+  const body = document.createElement('div');
+  body.className = 'bus-body';
+  
+  // التصميم الخارجي
+  body.innerHTML = `
+    <div style="text-align:center; padding:10px; font-weight:900; color:var(--navy); background:rgba(255,255,255,0.2)">${b.lbl}</div>
+    <div class="bus-windshield"></div>
+    <div class="cabin">
+      <div class="srows">${renderRows(b.id)}</div>
+      <div class="last-row">${renderLastRow(b.id)}</div>
+    </div>
+  `;
+  return body;
 }
 
 function renderRows(bid) {
   let html = '';
   // 10 صفوف، كل صف 2 يمين و 2 يسار
   for (let r = 1; r <= 10; r++) {
-    html += `<div class="srow">
-      <div class="seat-pair">
-        ${mkSeat(bid, r, 'أ')}
-        ${mkSeat(bid, r, 'ب')}
-      </div>
-      <div class="aisle">||</div>
-      <div class="seat-pair">
-        ${mkSeat(bid, r, 'ج')}
-        ${mkSeat(bid, r, 'د')}
-      </div>
-    </div>`;
+    html += `
+      <div class="srow">
+        <div class="seat-pair">
+          ${mkSeatHtml(bid, r, 'أ')}
+          ${mkSeatHtml(bid, r, 'ب')}
+        </div>
+        <div class="aisle">||</div>
+        <div class="seat-pair">
+          ${mkSeatHtml(bid, r, 'ج')}
+          ${mkSeatHtml(bid, r, 'د')}
+        </div>
+      </div>`;
   }
   return html;
 }
 
 function renderLastRow(bid) {
-  // الصف الأخير 5 مقاعد مشبوكة
-  return ['س1','س2','س3','س4','س5'].map(s => mkSeat(bid, 11, s)).join('');
+  // 5 مقاعد مشبوكة
+  return ['هـ1','هـ2','هـ3','هـ4','هـ5'].map(c => mkSeatHtml(bid, 11, c)).join('');
 }
 
-function mkSeat(bid, row, col) {
+function mkSeatHtml(bid, row, col) {
   const sid = `B${bid}-R${row}-${col}`;
-  const isTaken = seatsData[bid][sid];
-  const isMine = picks[userName] === sid;
+  const owner = seats[bid][sid];
+  const isMe = myPick === sid;
   
-  let className = 'seat';
-  if (isMine) className += ' mine';
-  else if (isTaken) className += ' taken';
+  let state = '';
+  if (isMe) state = ' mine';
+  else if (owner) state = ' taken';
 
-  return `<div class="${className}" onclick="pickSeat('${bid}','${sid}')">
-    <div class="slbl">${col}</div>
-  </div>`;
+  // حساب رقم المقعد للعرض
+  const num = row === 11 ? col : (row-1)*4 + (['أ','ب','ج','د'].indexOf(col)+1);
+
+  return `
+    <div class="seat${state}" onclick="pick('${bid}','${sid}','${num}')">
+      <div class="sh"></div>
+      <div class="sb">
+        <span class="slbl">${num}</span>
+        ${owner ? `<span class="sown">${owner}</span>` : ''}
+      </div>
+      <div class="sc"></div>
+    </div>`;
 }
 
-function pickSeat(bid, sid) {
-  if (seatsData[bid][sid]) return; // محجوز
-  
-  // إلغاء الحجز السابق إن وجد
-  if (picks[userName]) {
-    const oldSid = picks[userName];
-    const oldBid = oldSid.split('-')[0].replace('B','');
-    delete seatsData[oldBid][oldSid];
+function pick(bid, sid, num) {
+  if (seats[bid][sid] && seats[bid][sid] !== me) return toast('❌ هذا المقعد محجوز');
+
+  if (myPick) {
+    const [oldBid] = myPick.split('-').map(s=>s.replace('B',''));
+    delete seats[oldBid][myPick];
   }
 
-  seatsData[bid][sid] = userName;
-  picks[userName] = sid;
-  
-  renderBuses();
-  showToast("تم اختيار المقعد بنجاح!");
+  if (myPick === sid) {
+    myPick = null;
+    toast('تم إلغاء تحديد المقعد');
+  } else {
+    seats[bid][sid] = me;
+    myPick = sid;
+    toast(`✅ تم اختيار المقعد رقم ${num}`);
+  }
+  render();
+  summ();
 }
 
-function showToast(msg) {
+function summ() {
+  const el = document.getElementById('sl');
+  const all = [];
+  BUSES.forEach(b => {
+    Object.entries(seats[b.id]).forEach(([s, n]) => {
+      all.push({ name: n, bus: b.lbl });
+    });
+  });
+  if (!all.length) { el.innerHTML = '<span style="color:rgba(255,255,255,0.2)">لا توجد حجوزات بعد</span>'; return; }
+  el.innerHTML = all.map(i => `<div class="chip">🪑 ${i.name} — ${i.bus}</div>`).join('');
+}
+
+function go() {
+  const v = document.getElementById('ni').value.trim();
+  if (!v) { toast('⚠️ من فضلك أدخل اسمك أولاً'); return; }
+  me = v;
+  document.getElementById('nameSection').style.display = 'none';
+  document.getElementById('busSection').style.display = 'block';
+  document.getElementById('wu').textContent = 'مرحباً ' + me + ' 👋';
+  render(); summ();
+}
+
+function back() {
+  document.getElementById('busSection').style.display = 'none';
+  document.getElementById('nameSection').style.display = 'block';
+}
+
+let tt;
+function toast(msg) {
   const t = document.getElementById('toast');
-  t.innerText = msg;
-  t.style.display = 'block';
-  setTimeout(() => t.style.display = 'none', 3000);
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 3000);
 }
-</script>
 
+document.getElementById('ni').addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+</script>
 </body>
 </html>
